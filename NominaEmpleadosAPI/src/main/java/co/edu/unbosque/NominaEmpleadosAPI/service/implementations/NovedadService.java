@@ -1,9 +1,11 @@
 package co.edu.unbosque.NominaEmpleadosAPI.service.implementations;
 
 import co.edu.unbosque.NominaEmpleadosAPI.dto.NovedadDTO;
+import co.edu.unbosque.NominaEmpleadosAPI.entity.Empleado;
 import co.edu.unbosque.NominaEmpleadosAPI.entity.Novedad;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.INovedadRepository;
 import co.edu.unbosque.NominaEmpleadosAPI.service.interfaces.IService;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -16,15 +18,27 @@ public class NovedadService implements IService<NovedadDTO, Integer> {
 
     private final INovedadRepository repository;
     private final ModelMapper modelMapper;
+    private final EntityManager entityManager;
 
-    public NovedadService(INovedadRepository repository, ModelMapper modelMapper) {
+    public NovedadService(INovedadRepository repository, ModelMapper modelMapper, EntityManager entityManager) {
         this.repository = repository;
         this.modelMapper = modelMapper;
+        this.entityManager = entityManager;
     }
 
     @Override
     public void create(NovedadDTO dto) {
-        var novedad = modelMapper.map(dto, Novedad.class);
+
+        Empleado empleado = entityManager.getReference(Empleado.class, dto.getEmpleadoDTO().getId());
+
+        var novedad = Novedad.builder()
+                .id(dto.getId())
+                .empleado(empleado)
+                .numeroDias(dto.getNumeroDias())
+                .bonificacion(dto.getBonificacion())
+                .transporte(dto.getTransporte())
+                .build();
+
         repository.save(novedad);
     }
 
