@@ -2,54 +2,53 @@ package co.edu.unbosque.NominaEmpleadosAPI.service.implementations;
 
 import co.edu.unbosque.NominaEmpleadosAPI.dto.PensionDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.entity.Pension;
+import co.edu.unbosque.NominaEmpleadosAPI.exceptions.BadRequestException;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.IPensionRepository;
-import co.edu.unbosque.NominaEmpleadosAPI.service.interfaces.IService;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import org.modelmapper.ModelMapper;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-@RestController
-public class PensionService implements IService<PensionDTO, Integer> {
+@Service
+public class PensionService {
 
-    private final IPensionRepository repository;
     private final ModelMapper modelMapper;
+    private final IPensionRepository pensionRepository;
 
-    public PensionService(IPensionRepository repository, ModelMapper modelMapper) {
-        this.repository = repository;
+    public PensionService(ModelMapper modelMapper, IPensionRepository pensionRepository) {
         this.modelMapper = modelMapper;
+        this.pensionRepository = pensionRepository;
     }
 
-    @Override
-    public void create(PensionDTO dto) {
-        var pension = modelMapper.map(dto, Pension.class);
-        repository.save(pension);
+    public PensionDTO crearPension(PensionDTO pensionDTO) {
+        try {
+            Pension pension = pensionRepository.save(modelMapper.map(pensionDTO, Pension.class));
+            return modelMapper.map(pension, PensionDTO.class);
+        } catch (PersistenceException e) {
+            throw new BadRequestException("No se pudo guardar los datos de la pension, por favor verifique los datos.");
+        }
     }
 
-    @Override
-    public Optional<PensionDTO> read(Integer id) {
-        var pension = repository.findById(id).get();
-        return Optional.of(modelMapper.map(pension, PensionDTO.class));
-    }
-
-    @Override
-    public void update(Integer id, PensionDTO dto) {
-        dto.setId(id);
-        var pension = modelMapper.map(dto, Pension.class);
-        repository.save(pension);
-    }
-
-    @Override
-    public void delete(Integer id) {
-        repository.deleteById(id);
-    }
-
-    @Override
-    public List<PensionDTO> readAll() {
-        var pensions = (List<Pension>) repository.findAll();
-        return pensions.stream()
+    public PensionDTO buscarPensionPorId(int id) {
+        return pensionRepository.findById(id)
                 .map(pension -> modelMapper.map(pension, PensionDTO.class))
-                .toList();
+                .orElseThrow(() -> new EntityNotFoundException("Pensión no encontrada."));
+    }
+
+    public List<PensionDTO> listarPensiones() {
+        List<Pension> pensions = (List<Pension>) pensionRepository.findAll();
+        List<PensionDTO> auxList = pensions
+                .stream()
+                .map(pension -> modelMapper.map(pension, PensionDTO.class))
+                .collect(Collectors.toList());
+
+        if (auxList.isEmpty()) {
+            throw new EntityNotFoundException("No se encontraron registros de pensiones.");
+        } else {
+            return auxList;
+        }
     }
 }
