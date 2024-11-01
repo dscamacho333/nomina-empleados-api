@@ -3,6 +3,9 @@ package co.edu.unbosque.NominaEmpleadosAPI.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,6 +21,8 @@ public class Cargo {
     private Integer id;
     @Column(name = "nombre_cargo")
     private String nombreCargo;
+    @OneToMany(mappedBy = "cargo")
+    private List<Empleado> empleados = new ArrayList<>();
 
 
 }

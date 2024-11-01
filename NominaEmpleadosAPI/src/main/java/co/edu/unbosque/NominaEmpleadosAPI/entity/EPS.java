@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,4 +25,7 @@ public class EPS {
 
     @Column(name = "nombre_eps")
     private String nombreEPS;
+
+    @OneToMany(mappedBy = "eps")
+    private List<Empleado> empleados = new ArrayList<>();
 }

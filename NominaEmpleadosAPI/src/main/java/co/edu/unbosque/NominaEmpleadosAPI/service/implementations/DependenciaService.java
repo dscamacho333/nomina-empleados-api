@@ -4,6 +4,7 @@ import co.edu.unbosque.NominaEmpleadosAPI.dto.DependenciaDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.entity.Dependencia;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.IDependenciaRepository;
 import co.edu.unbosque.NominaEmpleadosAPI.service.interfaces.IService;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,12 @@ public class DependenciaService implements IService<DependenciaDTO, Integer> {
 
     @Override
     public Optional<DependenciaDTO> read(Integer id) {
-        var dependenciaDTO = repository.findById(id).get();
-        return Optional.of(modelMapper.map(dependenciaDTO, DependenciaDTO.class));
+        var dependencia = repository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("La dependencia no fue encontrada!"));
+        var dependenciaDTO = modelMapper
+                .map(dependencia, DependenciaDTO.class);
+        return Optional.of(dependenciaDTO);
     }
 
     @Override
