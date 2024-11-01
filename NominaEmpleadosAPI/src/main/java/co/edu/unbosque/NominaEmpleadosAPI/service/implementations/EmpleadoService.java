@@ -1,11 +1,13 @@
 package co.edu.unbosque.NominaEmpleadosAPI.service.implementations;
 
-import co.edu.unbosque.NominaEmpleadosAPI.dto.EmpleadoDTO;
+import co.edu.unbosque.NominaEmpleadosAPI.dto.*;
 import co.edu.unbosque.NominaEmpleadosAPI.entity.*;
+import co.edu.unbosque.NominaEmpleadosAPI.exceptions.BadRequestException;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.IEmpleadoRepository;
 import co.edu.unbosque.NominaEmpleadosAPI.service.interfaces.IService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -30,35 +32,39 @@ public class EmpleadoService implements IService<EmpleadoDTO, Integer> {
     @Override
     public void create(EmpleadoDTO dto) {
 
-        Dependencia dependencia = entityManager.getReference(Dependencia.class, dto.getDependenciaDTO().getId());
-        Cargo cargo = entityManager.getReference(Cargo.class, dto.getCargoDTO().getId());
-        EPS eps = entityManager.getReference(EPS.class, dto.getEpsDTO().getId());
-        ARL arl = entityManager.getReference(ARL.class, dto.getArlDTO().getId());
-        Pension pension = entityManager.getReference(Pension.class, dto.getPensionDTO().getId());
+        try{
+            Dependencia dependencia = entityManager.getReference(Dependencia.class, dto.getDependenciaDTO().getId());
+            Cargo cargo = entityManager.getReference(Cargo.class, dto.getCargoDTO().getId());
+            EPS eps = entityManager.getReference(EPS.class, dto.getEpsDTO().getId());
+            ARL arl = entityManager.getReference(ARL.class, dto.getArlDTO().getId());
+            Pension pension = entityManager.getReference(Pension.class, dto.getPensionDTO().getId());
 
-        var empleado = Empleado.builder()
-                .id(dto.getId())
-                .primerApellido(dto.getPrimerApellido())
-                .segundoApellido(dto.getSegundoApellido())
-                .primerNombre(dto.getPrimerNombre())
-                .segundoNombre(dto.getSegundoNombre())
-                .fechaIngreso(dto.getFechaIngreso())
-                .dependencia(dependencia)
-                .cargo(cargo)
-                .eps(eps)
-                .arl(arl)
-                .pension(pension)
-                .sueldo(dto.getSueldo())
-                .build();
+            var empleado = Empleado.builder()
+                    .id(dto.getId())
+                    .primerApellido(dto.getPrimerApellido())
+                    .segundoApellido(dto.getSegundoApellido())
+                    .primerNombre(dto.getPrimerNombre())
+                    .segundoNombre(dto.getSegundoNombre())
+                    .fechaIngreso(dto.getFechaIngreso())
+                    .dependencia(dependencia)
+                    .cargo(cargo)
+                    .eps(eps)
+                    .arl(arl)
+                    .pension(pension)
+                    .sueldo(dto.getSueldo())
+                    .build();
 
-        repository.save(empleado);
+            repository.save(empleado);
+        }catch (PersistenceException exception){
+            throw new BadRequestException("Error al crear el empleado!");
+        }
     }
 
     @Override
     public Optional<EmpleadoDTO> read(Integer id) {
         var empleado = repository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado!"));
+                .orElseThrow(() -> new EntityNotFoundException("Empleado no existe!"));
         var empleadoDTO = modelMapper
                 .map(empleado, EmpleadoDTO.class);
         return Optional.of(empleadoDTO);
@@ -66,6 +72,7 @@ public class EmpleadoService implements IService<EmpleadoDTO, Integer> {
 
     @Override
     public void update(Integer id, EmpleadoDTO dto) {
+        read(id);
         dto.setId(id);
         var empleado = modelMapper
                 .map(dto, Empleado.class);
@@ -74,6 +81,7 @@ public class EmpleadoService implements IService<EmpleadoDTO, Integer> {
 
     @Override
     public void delete(Integer id) {
+        read(id);
         repository
                 .deleteById(id);
     }

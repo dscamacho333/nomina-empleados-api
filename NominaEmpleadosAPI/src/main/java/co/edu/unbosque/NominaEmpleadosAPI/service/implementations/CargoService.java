@@ -3,9 +3,11 @@ package co.edu.unbosque.NominaEmpleadosAPI.service.implementations;
 import co.edu.unbosque.NominaEmpleadosAPI.dto.CargoDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.dto.DependenciaDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.entity.Cargo;
+import co.edu.unbosque.NominaEmpleadosAPI.exceptions.BadRequestException;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.ICargoRepository;
 import co.edu.unbosque.NominaEmpleadosAPI.service.interfaces.IService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +27,20 @@ public class CargoService implements IService<CargoDTO, Integer> {
 
     @Override
     public void create(CargoDTO dto) {
-        var cargo = modelMapper.map(dto, Cargo.class);
-        repository.save(cargo);
+        try{
+            var cargo = modelMapper.map(dto, Cargo.class);
+            repository.save(cargo);
+
+        } catch(PersistenceException exception){
+            throw new BadRequestException("Error al crear el cargo!");
+        }
     }
 
     @Override
     public Optional<CargoDTO> read(Integer id) {
         var cargo = repository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("El cargo no fue encontrado!"));
+                .orElseThrow(() -> new EntityNotFoundException("El cargo no existe!"));
         var cargoDTO = modelMapper
                 .map(cargo, CargoDTO.class);
         return Optional.of(cargoDTO);
@@ -41,6 +48,7 @@ public class CargoService implements IService<CargoDTO, Integer> {
 
     @Override
     public void update(Integer id, CargoDTO dto) {
+        read(id);
         dto.setId(id);
         var cargo = modelMapper.map(dto, Cargo.class);
         repository.save(cargo);
@@ -48,6 +56,7 @@ public class CargoService implements IService<CargoDTO, Integer> {
 
     @Override
     public void delete(Integer id) {
+        read(id);
         repository.deleteById(id);
     }
 
