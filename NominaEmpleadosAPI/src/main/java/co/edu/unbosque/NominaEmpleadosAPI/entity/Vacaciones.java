@@ -7,9 +7,10 @@ import java.util.Date;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
+@Builder
 @Entity
 @Table(name = "vacaciones")
 public class Vacaciones {

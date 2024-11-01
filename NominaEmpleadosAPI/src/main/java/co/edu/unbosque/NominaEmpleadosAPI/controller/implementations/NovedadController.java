@@ -24,21 +24,23 @@ public class NovedadController implements INovedadAPI {
 
     @Override
     public ResponseEntity<?> read(Integer id) {
-        return null;
+        return ResponseEntity.status(HttpStatus.OK.value()).body(novedadService.read(id));
     }
 
     @Override
     public ResponseEntity<?> update(Integer id, NovedadDTO dto) {
-        return null;
+        novedadService.update(id, dto);
+        return ResponseEntity.status(HttpStatus.OK.value()).body(dto);
     }
 
     @Override
     public ResponseEntity<?> delete(Integer id) {
-        return null;
+        novedadService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
 
     @Override
     public ResponseEntity<?> readAll() {
-        return null;
+        return ResponseEntity.status(HttpStatus.OK.value()).body(novedadService.readAll());
     }
 }
