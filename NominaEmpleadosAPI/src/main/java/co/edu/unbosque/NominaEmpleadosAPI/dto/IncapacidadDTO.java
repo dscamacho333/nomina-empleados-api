@@ -6,9 +6,9 @@ import java.util.Date;
 
 @Getter
 @Setter
-@ToString
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class IncapacidadDTO {
 
     private Integer id;
