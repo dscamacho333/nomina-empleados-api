@@ -2,7 +2,7 @@ package co.edu.unbosque.NominaEmpleadosAPI.service.implementations;
 
 import co.edu.unbosque.NominaEmpleadosAPI.dto.PensionDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.entity.Pension;
-import co.edu.unbosque.NominaEmpleadosAPI.exceptions.BadRequestException;
+import co.edu.unbosque.NominaEmpleadosAPI.exceptions.exceptions.BadRequestException;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.IPensionRepository;
 import co.edu.unbosque.NominaEmpleadosAPI.service.interfaces.IService;
 import jakarta.persistence.EntityNotFoundException;

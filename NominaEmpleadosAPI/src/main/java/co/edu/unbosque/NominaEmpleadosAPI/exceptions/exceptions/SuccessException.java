@@ -1,4 +1,4 @@
-package co.edu.unbosque.NominaEmpleadosAPI.exceptions;
+package co.edu.unbosque.NominaEmpleadosAPI.exceptions.exceptions;
 
 public class SuccessException extends RuntimeException{
 
