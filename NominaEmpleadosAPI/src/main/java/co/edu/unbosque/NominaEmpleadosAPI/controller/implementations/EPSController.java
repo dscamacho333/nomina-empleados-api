@@ -7,7 +7,9 @@ import co.edu.unbosque.NominaEmpleadosAPI.dto.EPSDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.IEPSRepository;
 import co.edu.unbosque.NominaEmpleadosAPI.service.interfaces.IService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class EPSController implements IEPSAPI {
 
     private final IService<EPSDTO, Integer> service;
