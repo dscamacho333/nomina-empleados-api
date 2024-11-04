@@ -1,10 +1,10 @@
 package co.edu.unbosque.NominaEmpleadosAPI.queries.service;
 
 import co.edu.unbosque.NominaEmpleadosAPI.dto.EmpleadoDTO;
+import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteCargoSaludPension;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.CargoDependenciaDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina1;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina2;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.DependenciaDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.IEmpleadoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,6 @@ public class ConsultasService implements IConsultas {
                 .toList();
 
         List<CargoDependenciaDTO> cantidadPorCargoYDependencia = new ArrayList<>();
-        List<DependenciaDTO> cantidadPorDependencia = new ArrayList<>();
 
         repository.contarEmpleadosPorCargoYDependencia().forEach(resultado -> {
             String cargo = (String) resultado[0];
@@ -47,13 +46,16 @@ public class ConsultasService implements IConsultas {
             cantidadPorCargoYDependencia.add(new CargoDependenciaDTO(cargo, dependencia, cantidad));
         });
 
-        repository.contarEmpleadosPorDependencia().forEach(resultado -> {
-            String dependencia = (String) resultado[0];
-            Long cantidad = (Long) resultado[1];
-
-            cantidadPorDependencia.add(new DependenciaDTO(dependencia, cantidad));
-        });
-
-        return new ReporteNomina2(empleadosDTO, cantidadPorCargoYDependencia, cantidadPorDependencia, repository.count());
+        return new ReporteNomina2(empleadosDTO, cantidadPorCargoYDependencia, repository.count());
     }
+
+    @Override
+    public ReporteCargoSaludPension listarEmpleadosPensionCargoNombre(String ordenNombre) {
+        List<EmpleadoDTO> empleadosDTO = repository.listarPorCargoEpsPension(ordenNombre).stream()
+                .map(empleado -> modelMapper.map(empleado, EmpleadoDTO.class))
+                .toList();
+
+        return new ReporteCargoSaludPension(empleadosDTO);
+    }
+
 }
