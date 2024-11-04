@@ -23,6 +23,18 @@ public interface IConsultasAPI {
     ResponseEntity<ReporteNomina2> listarEmpleadosPorCargoYDependencia(
             @RequestParam(value = "ordenNombre", defaultValue = "asc") String ordenNombre);
 
+
+
+
+
+
+
+
+
+
+
+
+
     @GetMapping("/reporte-novedades")
     ResponseEntity<List<ReporteNovedadDTO>> obtenerReporteNovedades(
             @RequestParam("fechaInicio") @DateTimeFormat(pattern = "MM/yyyy") Date fechaInicio,

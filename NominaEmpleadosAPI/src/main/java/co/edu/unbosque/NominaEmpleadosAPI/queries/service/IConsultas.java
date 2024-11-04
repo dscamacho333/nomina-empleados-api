@@ -11,5 +11,9 @@ public interface IConsultas {
 
     ReporteNomina1 listarEmpleadosOrdenados(String criterioOrden);
     ReporteNomina2 listarEmpleadosPorCargoYDependencia(String ordenNombre);
+
+
+
+
     List<ReporteNovedadDTO> obtenerNovedadesPorFechas(Date fechaInicio, Date fechaFin);
 }

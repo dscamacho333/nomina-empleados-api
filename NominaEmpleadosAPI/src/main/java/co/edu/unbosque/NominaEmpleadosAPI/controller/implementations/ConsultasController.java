@@ -32,6 +32,20 @@ public class ConsultasController implements IConsultasAPI {
         return ResponseEntity.status(HttpStatus.OK).body(reporteNomina2);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     @Override
     public ResponseEntity<List<ReporteNovedadDTO>> obtenerReporteNovedades(
             @DateTimeFormat(pattern = "MM/yyyy") Date fechaInicio,

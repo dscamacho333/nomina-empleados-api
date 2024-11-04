@@ -62,6 +62,24 @@ public class ConsultasService implements IConsultas {
         return new ReporteNomina2(empleadosDTO, cantidadPorCargoYDependencia, cantidadPorDependencia, empleadoRepository.count());
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public List<ReporteNovedadDTO> obtenerNovedadesPorFechas(Date fechaInicio, Date fechaFin) {
         List<Object[]> resultados = novedadRepository.findNovedadesEntreFechas(fechaInicio, fechaFin);
