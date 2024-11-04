@@ -15,6 +15,4 @@ public class ReporteCargoSaludPension {
 
     private List<EmpleadoDTO> empleadosDTO;
 
-
-
 }

@@ -16,6 +16,5 @@ public class ReporteNomina2 {
 
     private List<EmpleadoDTO> empleadosDTO;
     private List<CargoDependenciaDTO> cargoDependenciasDTO;
-    private List<DependenciaDTO> dependenciasDTO;
     private long cantidadTotalEmpleados;
 }
