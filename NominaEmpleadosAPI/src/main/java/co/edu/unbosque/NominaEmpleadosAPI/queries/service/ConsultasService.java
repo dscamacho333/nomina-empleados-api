@@ -6,6 +6,7 @@ import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNovedad;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.CargoDependenciaDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina1;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina2;
+import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.CantidadDependenciaDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.IEmpleadoRepository;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.INovedadRepository;
 import org.modelmapper.ModelMapper;
@@ -20,7 +21,7 @@ import java.util.List;
 public class ConsultasService implements IConsultas {
 
     @Autowired
-    private IEmpleadoRepository repository;
+    private IEmpleadoRepository empleadoRepository;
     @Autowired
     private INovedadRepository novedadRepository;
     @Autowired
@@ -28,22 +29,23 @@ public class ConsultasService implements IConsultas {
 
     @Override
     public ReporteNomina1 listarEmpleadosOrdenados(String criterioOrden) {
-        List<EmpleadoDTO> empleadosDTO = repository.ordenarPor(criterioOrden).stream()
+        List<EmpleadoDTO> empleadosDTO = empleadoRepository.ordenarPor(criterioOrden).stream()
                 .map((empleado) -> modelMapper.map(empleado, EmpleadoDTO.class))
                 .toList();
 
-        return new ReporteNomina1(empleadosDTO, repository.count());
+        return new ReporteNomina1(empleadosDTO, empleadoRepository.count());
     }
 
     @Override
     public ReporteNomina2 listarEmpleadosPorCargoYDependencia(String ordenNombre) {
-        List<EmpleadoDTO> empleadosDTO = repository.listarPorCargoYDependencia(ordenNombre).stream()
+        List<EmpleadoDTO> empleadosDTO = empleadoRepository.listarPorCargoYDependencia(ordenNombre).stream()
                 .map(empleado -> modelMapper.map(empleado, EmpleadoDTO.class))
                 .toList();
 
         List<CargoDependenciaDTO> cantidadPorCargoYDependencia = new ArrayList<>();
+        List<CantidadDependenciaDTO> cantidadPorDependencia = new ArrayList<>();
 
-        repository.contarEmpleadosPorCargoYDependencia().forEach(resultado -> {
+        empleadoRepository.contarEmpleadosPorCargoYDependencia().forEach(resultado -> {
             String cargo = (String) resultado[0];
             String dependencia = (String) resultado[1];
             Long cantidad = (Long) resultado[2];
@@ -51,12 +53,19 @@ public class ConsultasService implements IConsultas {
             cantidadPorCargoYDependencia.add(new CargoDependenciaDTO(cargo, dependencia, cantidad));
         });
 
-        return new ReporteNomina2(empleadosDTO, cantidadPorCargoYDependencia, repository.count());
+        empleadoRepository.contarEmpleadosPorDependencia().forEach(resultado -> {
+            String dependencia = (String) resultado[0];
+            Long cantidad = (Long) resultado[1];
+
+            cantidadPorDependencia.add(new CantidadDependenciaDTO(dependencia, cantidad));
+        });
+
+        return new ReporteNomina2(empleadosDTO, cantidadPorCargoYDependencia, cantidadPorDependencia, empleadoRepository.count());
     }
 
     @Override
     public ReporteCargoSaludPension listarEmpleadosPensionCargoNombre(String ordenNombre) {
-        List<EmpleadoDTO> empleadosDTO = repository.listarPorCargoEpsPension(ordenNombre).stream()
+        List<EmpleadoDTO> empleadosDTO = empleadoRepository.listarPorCargoEpsPension(ordenNombre).stream()
                 .map(empleado -> modelMapper.map(empleado, EmpleadoDTO.class))
                 .toList();
 
@@ -79,6 +88,4 @@ public class ConsultasService implements IConsultas {
                 ))
                 .toList();
     }
-
-
 }

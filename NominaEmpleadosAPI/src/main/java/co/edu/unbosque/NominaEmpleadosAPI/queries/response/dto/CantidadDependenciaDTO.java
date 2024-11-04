@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DependenciaDTO {
+public class CantidadDependenciaDTO {
 
     private String dependencia;
     private long cantidad;
