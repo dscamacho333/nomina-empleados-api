@@ -3,7 +3,7 @@ package co.edu.unbosque.NominaEmpleadosAPI.service.implementations;
 import co.edu.unbosque.NominaEmpleadosAPI.dto.VacacionesDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.entity.Novedad;
 import co.edu.unbosque.NominaEmpleadosAPI.entity.Vacaciones;
-import co.edu.unbosque.NominaEmpleadosAPI.exceptions.BadRequestException;
+import co.edu.unbosque.NominaEmpleadosAPI.exceptions.exceptions.BadRequestException;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.IVacacionesRepository;
 import co.edu.unbosque.NominaEmpleadosAPI.service.interfaces.IService;
 import jakarta.persistence.EntityManager;
@@ -72,14 +72,14 @@ public class VacacionesService implements IService<VacacionesDTO, Integer> {
 
     @Override
     public List<VacacionesDTO> readAll() {
-        var vacacionesList = (List<Vacaciones>) repository.findAll();
+        var vacaciones = (List<Vacaciones>) repository.findAll();
 
-        if (vacacionesList.isEmpty()) {
+        if (vacaciones.isEmpty()) {
             throw new EntityNotFoundException("No se encontraron registros de vacaciones.");
         }
 
-        return vacacionesList.stream()
-                .map(vacacion -> modelMapper.map(vacacion, VacacionesDTO.class))
+        return vacaciones.stream()
+                .map((vacacion) -> modelMapper.map(vacacion, VacacionesDTO.class))
                 .toList();
     }
 }

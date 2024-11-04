@@ -3,6 +3,9 @@ package co.edu.unbosque.NominaEmpleadosAPI.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,4 +33,11 @@ public class Novedad {
 
     @Column(name = "transporte")
     private double transporte;
+
+    @OneToMany(mappedBy = "novedad")
+    private List<Vacaciones> vacaciones = new ArrayList<>();
+
+    @OneToMany(mappedBy = "novedad")
+    private List<Incapacidad> incapacidades = new ArrayList<>();
+
 }

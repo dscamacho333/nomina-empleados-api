@@ -1,6 +1,5 @@
 package co.edu.unbosque.NominaEmpleadosAPI.controller.interfaces;
 
-import co.edu.unbosque.NominaEmpleadosAPI.dto.CargoDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.dto.EmpleadoDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +21,5 @@ public interface IEmpleadoAPI {
 
     @GetMapping("/listar")
     ResponseEntity<?> readAll();
-
 
 }

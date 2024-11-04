@@ -52,4 +52,5 @@ public class EmpleadoController implements IEmpleadoAPI {
                 .status(200)
                 .body(service.readAll());
     }
+
 }

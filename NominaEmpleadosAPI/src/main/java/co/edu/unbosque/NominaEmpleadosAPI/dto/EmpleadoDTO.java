@@ -2,7 +2,9 @@ package co.edu.unbosque.NominaEmpleadosAPI.dto;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,6 +25,6 @@ public class EmpleadoDTO {
     private ARLDTO arlDTO;
     private PensionDTO pensionDTO;
     private double sueldo;
-
+    private List<NovedadDTO> novedadesDTO = new ArrayList<>();
 
 }

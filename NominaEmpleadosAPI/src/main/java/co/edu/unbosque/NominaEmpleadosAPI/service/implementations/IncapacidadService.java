@@ -3,7 +3,7 @@ package co.edu.unbosque.NominaEmpleadosAPI.service.implementations;
 import co.edu.unbosque.NominaEmpleadosAPI.dto.IncapacidadDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.entity.Incapacidad;
 import co.edu.unbosque.NominaEmpleadosAPI.entity.Novedad;
-import co.edu.unbosque.NominaEmpleadosAPI.exceptions.BadRequestException;
+import co.edu.unbosque.NominaEmpleadosAPI.exceptions.exceptions.BadRequestException;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.IIncapacidadRepository;
 import co.edu.unbosque.NominaEmpleadosAPI.service.interfaces.IService;
 import jakarta.persistence.EntityManager;
@@ -80,7 +80,7 @@ public class IncapacidadService implements IService<IncapacidadDTO, Integer> {
         }
 
         return incapacidades.stream()
-                .map(incapacidad -> modelMapper.map(incapacidad, IncapacidadDTO.class))
+                .map((incapacidad) -> modelMapper.map(incapacidad, IncapacidadDTO.class))
                 .toList();
     }
 }
