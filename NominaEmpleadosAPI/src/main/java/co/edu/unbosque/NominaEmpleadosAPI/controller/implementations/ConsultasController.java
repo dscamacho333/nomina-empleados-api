@@ -1,6 +1,7 @@
 package co.edu.unbosque.NominaEmpleadosAPI.controller.implementations;
 
 import co.edu.unbosque.NominaEmpleadosAPI.controller.interfaces.IConsultasAPI;
+import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteCargoSaludPension;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina1;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina2;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.service.IConsultas;
@@ -25,6 +26,12 @@ public class ConsultasController implements IConsultasAPI {
     public ResponseEntity<ReporteNomina2> listarEmpleadosPorCargoYDependencia(String ordenNombre) {
         ReporteNomina2 reporteNomina2 = service.listarEmpleadosPorCargoYDependencia(ordenNombre);
         return ResponseEntity.status(HttpStatus.OK).body(reporteNomina2);
+    }
+
+    @Override
+    public ResponseEntity<ReporteCargoSaludPension> listarEmpleadosPorCargoEpsPension(String ordenNombre) {
+        ReporteCargoSaludPension reporteCargoSaludPension = service.listarEmpleadosPensionCargoNombre(ordenNombre);
+        return ResponseEntity.status(HttpStatus.OK).body(reporteCargoSaludPension);
     }
 
 }

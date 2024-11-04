@@ -1,6 +1,7 @@
 package co.edu.unbosque.NominaEmpleadosAPI.queries.service;
 
 import co.edu.unbosque.NominaEmpleadosAPI.dto.EmpleadoDTO;
+import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteCargoSaludPension;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.CargoDependenciaDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina1;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina2;
@@ -46,6 +47,15 @@ public class ConsultasService implements IConsultas {
         });
 
         return new ReporteNomina2(empleadosDTO, cantidadPorCargoYDependencia, repository.count());
+    }
+
+    @Override
+    public ReporteCargoSaludPension listarEmpleadosPensionCargoNombre(String ordenNombre) {
+        List<EmpleadoDTO> empleadosDTO = repository.listarPorCargoEpsPension(ordenNombre).stream()
+                .map(empleado -> modelMapper.map(empleado, EmpleadoDTO.class))
+                .toList();
+
+        return new ReporteCargoSaludPension(empleadosDTO);
     }
 
 }
