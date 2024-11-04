@@ -13,5 +13,5 @@ import java.util.List;
 public class ReporteNomina1 {
 
     private List<EmpleadoDTO> empleadosDTO;
-    private long cantidadEmpleados;
+    private long cantidadTotalEmpleados;
 }

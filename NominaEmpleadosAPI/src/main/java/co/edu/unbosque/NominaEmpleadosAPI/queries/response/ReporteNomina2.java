@@ -2,6 +2,7 @@ package co.edu.unbosque.NominaEmpleadosAPI.queries.response;
 
 import co.edu.unbosque.NominaEmpleadosAPI.dto.EmpleadoDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.CargoDependenciaDTO;
+import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.DependenciaDTO;
 import lombok.*;
 
 import java.util.List;
@@ -15,5 +16,6 @@ public class ReporteNomina2 {
 
     private List<EmpleadoDTO> empleadosDTO;
     private List<CargoDependenciaDTO> cargoDependenciasDTO;
-    private long cantidadEmpleados;
+    private List<DependenciaDTO> dependenciasDTO;
+    private long cantidadTotalEmpleados;
 }

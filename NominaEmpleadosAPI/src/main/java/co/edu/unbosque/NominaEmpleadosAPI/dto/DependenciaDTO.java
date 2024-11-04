@@ -1,6 +1,5 @@
 package co.edu.unbosque.NominaEmpleadosAPI.dto;
 
-
 import lombok.*;
 
 import java.util.ArrayList;

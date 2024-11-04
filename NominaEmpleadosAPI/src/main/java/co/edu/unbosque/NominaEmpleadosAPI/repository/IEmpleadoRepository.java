@@ -28,5 +28,10 @@ public interface IEmpleadoRepository extends JpaRepository<Empleado, Integer> {
             "ORDER BY e.dependencia.nombreDependencia ASC, e.cargo.nombreCargo ASC")
     List<Object[]> contarEmpleadosPorCargoYDependencia();
 
+    @Query("SELECT e.dependencia.nombreDependencia AS dependencia, COUNT(e) AS cantidad " +
+            "FROM Empleado e " +
+            "GROUP BY e.dependencia.nombreDependencia " +
+            "ORDER BY e.dependencia.nombreDependencia ASC")
+    List<Object[]> contarEmpleadosPorDependencia();
 }
 
