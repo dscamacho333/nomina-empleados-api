@@ -9,7 +9,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ReporteNovedad {
+public class ReporteFechaNovedad {
 
     private String primerNombre;
     private String primerApellido;

@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface IConsultas {
 
-    ReporteNomina1 listarEmpleadosOrdenados(String criterioOrden);
-    ReporteNomina2 listarEmpleadosPorCargoYDependencia(String ordenNombre);
+    ReporteNombreDependencia listarEmpleadosOrdenados(String criterioOrden);
+    ReporteCargoDependencia listarEmpleadosPorCargoYDependencia(String ordenNombre);
     ReporteCargoSaludPension listarEmpleadosPensionCargoNombre (String ordenNombre);
-    List<ReporteNovedad> obtenerNovedadesPorFechas(Date fechaInicio, Date fechaFin);
+    ReporteInformacionIndividual obtenerInformacionIndividual(Integer idEmpleado);
+    List<ReporteFechaNovedad> obtenerNovedadesPorFechas(Date fechaInicio, Date fechaFin);
     List<ReporteDetalleNovedad> obtenerNovedadesPorRangoFechaCargoDependencia(Date fechaInicio, Date fechaFin, String dependencia, String cargo);
 }

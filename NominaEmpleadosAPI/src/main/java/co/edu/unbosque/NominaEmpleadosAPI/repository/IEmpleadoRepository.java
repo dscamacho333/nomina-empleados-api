@@ -42,5 +42,20 @@ public interface IEmpleadoRepository extends JpaRepository<Empleado, Integer> {
             "CASE WHEN :ordenNombre = 'desc' THEN e.primerNombre END DESC")
     List<Empleado> listarPorCargoEpsPension(@Param("ordenNombre") String ordenNombre);
 
+    @Query("SELECT e.primerNombre, e.primerApellido, e.sueldo, c.nombreCargo, d.nombreDependencia, eps.nombreEPS, p.nombrePension, " +
+            "n.numeroDias, n.bonificacion, n.transporte, " +
+            "v.fechaInicio as vacacionesInicio, v.fechaTerminacion as vacacionesFin, " +
+            "i.fechaInicio as incapacidadInicio, i.fechaTerminacion as incapacidadFin " +
+            "FROM Empleado e " +
+            "JOIN e.cargo c " +
+            "JOIN e.dependencia d " +
+            "JOIN e.eps eps " +
+            "JOIN e.pension p " +
+            "LEFT JOIN Novedad n ON n.empleado.id = e.id " +
+            "LEFT JOIN Vacaciones v ON v.novedad.id = n.id " +
+            "LEFT JOIN Incapacidad i ON i.novedad.id = n.id " +
+            "WHERE e.id = :idEmpleado")
+   List<Object[]> obtenerInformacionIndividual(@Param("idEmpleado") Integer idEmpleado);
+
 }
 

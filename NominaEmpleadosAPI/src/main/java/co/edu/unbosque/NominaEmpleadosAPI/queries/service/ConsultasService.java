@@ -27,16 +27,16 @@ public class ConsultasService implements IConsultas {
     }
 
     @Override
-    public ReporteNomina1 listarEmpleadosOrdenados(String criterioOrden) {
+    public ReporteNombreDependencia listarEmpleadosOrdenados(String criterioOrden) {
         List<EmpleadoDTO> empleadosDTO = empleadoRepository.ordenarPor(criterioOrden).stream()
                 .map((empleado) -> modelMapper.map(empleado, EmpleadoDTO.class))
                 .toList();
 
-        return new ReporteNomina1(empleadosDTO, empleadoRepository.count());
+        return new ReporteNombreDependencia(empleadosDTO, empleadoRepository.count());
     }
 
     @Override
-    public ReporteNomina2 listarEmpleadosPorCargoYDependencia(String ordenNombre) {
+    public ReporteCargoDependencia listarEmpleadosPorCargoYDependencia(String ordenNombre) {
         List<EmpleadoDTO> empleadosDTO = empleadoRepository.listarPorCargoYDependencia(ordenNombre).stream()
                 .map(empleado -> modelMapper.map(empleado, EmpleadoDTO.class))
                 .toList();
@@ -59,7 +59,7 @@ public class ConsultasService implements IConsultas {
             cantidadPorDependencia.add(new CantidadDependenciaDTO(dependencia, cantidad));
         });
 
-        return new ReporteNomina2(empleadosDTO, cantidadPorCargoYDependencia, cantidadPorDependencia, empleadoRepository.count());
+        return new ReporteCargoDependencia(empleadosDTO, cantidadPorCargoYDependencia, cantidadPorDependencia, empleadoRepository.count());
     }
 
     @Override
@@ -72,11 +72,35 @@ public class ConsultasService implements IConsultas {
     }
 
     @Override
-    public List<ReporteNovedad> obtenerNovedadesPorFechas(Date fechaInicio, Date fechaFin) {
+    public ReporteInformacionIndividual obtenerInformacionIndividual(Integer idEmpleado) {
+        List<Object[]> resultados = empleadoRepository.obtenerInformacionIndividual(idEmpleado);
+
+        Object[] resultado = resultados.get(0);
+
+        return new ReporteInformacionIndividual(
+                (String) resultado[0],
+                (String) resultado[1],
+                (Double) resultado[2],
+                (String) resultado[3],
+                (String) resultado[4],
+                (String) resultado[5],
+                (String) resultado[6],
+                (Integer) resultado[7],
+                (Double) resultado[8],
+                (Double) resultado[9],
+                (Date) resultado[10],
+                (Date) resultado[11],
+                (Date) resultado[12],
+                (Date) resultado[13]
+        );
+    }
+
+    @Override
+    public List<ReporteFechaNovedad> obtenerNovedadesPorFechas(Date fechaInicio, Date fechaFin) {
         List<Object[]> resultados = novedadRepository.findNovedadesPorFechas(fechaInicio, fechaFin);
 
         return resultados.stream()
-                .map(obj -> new ReporteNovedad(
+                .map(obj -> new ReporteFechaNovedad(
                         (String) obj[0],
                         (String) obj[1],
                         (Integer) obj[2],

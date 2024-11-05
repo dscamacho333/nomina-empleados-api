@@ -14,19 +14,22 @@ import java.util.List;
 public interface IConsultasAPI {
 
     @GetMapping("/empleados-ordenados")
-    ResponseEntity<ReporteNomina1> listarEmpleadosOrdenados(
+    ResponseEntity<ReporteNombreDependencia> listarEmpleadosOrdenados(
             @RequestParam(value = "ordenarPor", defaultValue = "primerNombre") String ordenarPor);
 
     @GetMapping("/empleados-por-cargo-dependencia")
-    ResponseEntity<ReporteNomina2> listarEmpleadosPorCargoYDependencia(
+    ResponseEntity<ReporteCargoDependencia> listarEmpleadosPorCargoYDependencia(
             @RequestParam(value = "ordenNombre", defaultValue = "asc") String ordenNombre);
 
     @GetMapping("/empleados-por-cargo-eps-pension")
     ResponseEntity<ReporteCargoSaludPension> listarEmpleadosPorCargoEpsPension(
             @RequestParam(value = "ordenNombre", defaultValue = "asc") String ordenNombre);
 
+    @GetMapping("/empleado-informacion")
+    ResponseEntity<ReporteInformacionIndividual> obtenerInformacionIndividual(@RequestParam("idEmpleado") Integer idEmpleado);
+
     @GetMapping("/reporte-novedades")
-    ResponseEntity<List<ReporteNovedad>> obtenerReporteNovedades(
+    ResponseEntity<List<ReporteFechaNovedad>> obtenerReporteNovedades(
             @RequestParam("fechaInicio") @DateTimeFormat(pattern = "MM/yyyy") Date fechaInicio,
             @RequestParam("fechaFin") @DateTimeFormat(pattern = "MM/yyyy") Date fechaFin);
 

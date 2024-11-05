@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ReporteNomina1 {
+public class ReporteNombreDependencia {
 
     private List<EmpleadoDTO> empleadosDTO;
     private long cantidadTotalEmpleados;

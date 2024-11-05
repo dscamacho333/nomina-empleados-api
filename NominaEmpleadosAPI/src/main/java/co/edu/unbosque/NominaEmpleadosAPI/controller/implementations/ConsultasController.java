@@ -20,15 +20,15 @@ public class ConsultasController implements IConsultasAPI {
     }
 
     @Override
-    public ResponseEntity<ReporteNomina1> listarEmpleadosOrdenados(String ordenarPor) {
-        ReporteNomina1 reporteNomina1 = service.listarEmpleadosOrdenados(ordenarPor);
-        return ResponseEntity.status(HttpStatus.OK).body(reporteNomina1);
+    public ResponseEntity<ReporteNombreDependencia> listarEmpleadosOrdenados(String ordenarPor) {
+        ReporteNombreDependencia reporteNombreDependencia = service.listarEmpleadosOrdenados(ordenarPor);
+        return ResponseEntity.status(HttpStatus.OK).body(reporteNombreDependencia);
     }
 
     @Override
-    public ResponseEntity<ReporteNomina2> listarEmpleadosPorCargoYDependencia(String ordenNombre) {
-        ReporteNomina2 reporteNomina2 = service.listarEmpleadosPorCargoYDependencia(ordenNombre);
-        return ResponseEntity.status(HttpStatus.OK).body(reporteNomina2);
+    public ResponseEntity<ReporteCargoDependencia> listarEmpleadosPorCargoYDependencia(String ordenNombre) {
+        ReporteCargoDependencia reporteCargoDependencia = service.listarEmpleadosPorCargoYDependencia(ordenNombre);
+        return ResponseEntity.status(HttpStatus.OK).body(reporteCargoDependencia);
     }
 
     @Override
@@ -38,8 +38,14 @@ public class ConsultasController implements IConsultasAPI {
     }
 
     @Override
-    public ResponseEntity<List<ReporteNovedad>> obtenerReporteNovedades(Date fechaInicio, Date fechaFin) {
-        List<ReporteNovedad> novedades = service.obtenerNovedadesPorFechas(fechaInicio, fechaFin);
+    public ResponseEntity<ReporteInformacionIndividual> obtenerInformacionIndividual(Integer idEmpleado) {
+        ReporteInformacionIndividual reporte = service.obtenerInformacionIndividual(idEmpleado);
+        return ResponseEntity.status(HttpStatus.OK).body(reporte);
+    }
+
+    @Override
+    public ResponseEntity<List<ReporteFechaNovedad>> obtenerReporteNovedades(Date fechaInicio, Date fechaFin) {
+        List<ReporteFechaNovedad> novedades = service.obtenerNovedadesPorFechas(fechaInicio, fechaFin);
         return ResponseEntity.status(HttpStatus.OK).body(novedades);
     }
 
