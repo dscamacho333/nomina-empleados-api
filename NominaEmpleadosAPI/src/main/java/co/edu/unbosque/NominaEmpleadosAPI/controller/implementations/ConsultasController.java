@@ -1,13 +1,8 @@
 package co.edu.unbosque.NominaEmpleadosAPI.controller.implementations;
 
 import co.edu.unbosque.NominaEmpleadosAPI.controller.interfaces.IConsultasAPI;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteCargoSaludPension;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina1;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina2;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNovedad;
+import co.edu.unbosque.NominaEmpleadosAPI.queries.response.*;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.service.IConsultas;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +13,11 @@ import java.util.List;
 @RestController
 public class ConsultasController implements IConsultasAPI {
 
-    @Autowired
-    private IConsultas service;
+    private final IConsultas service;
+
+    public ConsultasController(IConsultas service) {
+        this.service = service;
+    }
 
     @Override
     public ResponseEntity<ReporteNomina1> listarEmpleadosOrdenados(String ordenarPor) {
@@ -40,13 +38,15 @@ public class ConsultasController implements IConsultasAPI {
     }
 
     @Override
-    public ResponseEntity<List<ReporteNovedad>> obtenerReporteNovedades(
-            @DateTimeFormat(pattern = "MM/yyyy") Date fechaInicio,
-            @DateTimeFormat(pattern = "MM/yyyy") Date fechaFin) {
-
+    public ResponseEntity<List<ReporteNovedad>> obtenerReporteNovedades(Date fechaInicio, Date fechaFin) {
         List<ReporteNovedad> novedades = service.obtenerNovedadesPorFechas(fechaInicio, fechaFin);
         return ResponseEntity.status(HttpStatus.OK).body(novedades);
     }
 
+    @Override
+    public ResponseEntity<List<ReporteDetalleNovedad>> obtenerNovedadesPorRangoFechaCargoDependencia(Date fechaInicio, Date fechaFin, String dependencia, String cargo) {
+        List<ReporteDetalleNovedad> reporteNovedades = service.obtenerNovedadesPorRangoFechaCargoDependencia(fechaInicio, fechaFin, dependencia, cargo);
+        return ResponseEntity.status(HttpStatus.OK).body(reporteNovedades);
+    }
 }
 

@@ -1,9 +1,6 @@
 package co.edu.unbosque.NominaEmpleadosAPI.controller.interfaces;
 
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina1;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina2;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteCargoSaludPension;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNovedad;
+import co.edu.unbosque.NominaEmpleadosAPI.queries.response.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,4 +29,11 @@ public interface IConsultasAPI {
     ResponseEntity<List<ReporteNovedad>> obtenerReporteNovedades(
             @RequestParam("fechaInicio") @DateTimeFormat(pattern = "MM/yyyy") Date fechaInicio,
             @RequestParam("fechaFin") @DateTimeFormat(pattern = "MM/yyyy") Date fechaFin);
+
+    @GetMapping("/novedades-por-fecha-cargo-dependencia")
+    ResponseEntity<List<ReporteDetalleNovedad>> obtenerNovedadesPorRangoFechaCargoDependencia(
+            @RequestParam("fechaInicio") @DateTimeFormat(pattern = "MM/yyyy") Date fechaInicio,
+            @RequestParam("fechaFin") @DateTimeFormat(pattern = "MM/yyyy") Date fechaFin,
+            @RequestParam("dependencia") String dependencia,
+            @RequestParam("cargo") String cargo);
 }

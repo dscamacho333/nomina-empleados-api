@@ -1,16 +1,12 @@
 package co.edu.unbosque.NominaEmpleadosAPI.queries.service;
 
 import co.edu.unbosque.NominaEmpleadosAPI.dto.EmpleadoDTO;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteCargoSaludPension;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNovedad;
+import co.edu.unbosque.NominaEmpleadosAPI.queries.response.*;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.CargoDependenciaDTO;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina1;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.ReporteNomina2;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.CantidadDependenciaDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.IEmpleadoRepository;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.INovedadRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,12 +16,15 @@ import java.util.List;
 @Service
 public class ConsultasService implements IConsultas {
 
-    @Autowired
-    private IEmpleadoRepository empleadoRepository;
-    @Autowired
-    private INovedadRepository novedadRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    private final IEmpleadoRepository empleadoRepository;
+    private final INovedadRepository novedadRepository;
+    private final ModelMapper modelMapper;
+
+    public ConsultasService(IEmpleadoRepository empleadoRepository, INovedadRepository novedadRepository, ModelMapper modelMapper) {
+        this.empleadoRepository = empleadoRepository;
+        this.novedadRepository = novedadRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public ReporteNomina1 listarEmpleadosOrdenados(String criterioOrden) {
@@ -74,7 +73,7 @@ public class ConsultasService implements IConsultas {
 
     @Override
     public List<ReporteNovedad> obtenerNovedadesPorFechas(Date fechaInicio, Date fechaFin) {
-        List<Object[]> resultados = novedadRepository.findNovedadesEntreFechas(fechaInicio, fechaFin);
+        List<Object[]> resultados = novedadRepository.findNovedadesPorFechas(fechaInicio, fechaFin);
 
         return resultados.stream()
                 .map(obj -> new ReporteNovedad(
@@ -88,4 +87,28 @@ public class ConsultasService implements IConsultas {
                 ))
                 .toList();
     }
+
+    @Override
+    public List<ReporteDetalleNovedad> obtenerNovedadesPorRangoFechaCargoDependencia(Date fechaInicio, Date fechaFin, String dependencia, String cargo) {
+        List<Object[]> resultados = novedadRepository.detalleNovedadesPorRangoFechaCargoDependencia(fechaInicio, fechaFin, dependencia, cargo);
+
+        return resultados.stream()
+                .map(obj -> new ReporteDetalleNovedad(
+                        (String) obj[0],
+                        (String) obj[1],
+                        (String) obj[2],
+                        (String) obj[3],
+                        (Long) obj[4],
+                        (Date) obj[5],
+                        (Date) obj[6],
+                        (Long) obj[7],
+                        (Date) obj[8],
+                        (Date) obj[9],
+                        (Double) obj[10],
+                        (Double) obj[11],
+                        (Double) obj[12]
+                ))
+                .toList();
+    }
+
 }
