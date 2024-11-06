@@ -2,9 +2,11 @@ package co.edu.unbosque.NominaEmpleadosAPI.controller.interfaces;
 
 import co.edu.unbosque.NominaEmpleadosAPI.dto.PermisoRolDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/permiso-rol/v1")
+@PreAuthorize("hasAnyRole('ADMIN','DESARROLLADOR')")
 public interface IPermisoRolAPI {
 
     @PostMapping("/crear")

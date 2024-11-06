@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/empleado/v1")
+@PreAuthorize("hasAnyRole('ADMIN','DESARROLLADOR', 'USUARIO')")
 public interface IEmpleadoAPI {
 
     @PostMapping("/crear")
@@ -21,7 +22,6 @@ public interface IEmpleadoAPI {
     ResponseEntity<?> delete(@PathVariable Integer id);
 
     @GetMapping("/listar")
-    @PreAuthorize("hasAuthority('READ')")
     ResponseEntity<?> readAll();
 
 }

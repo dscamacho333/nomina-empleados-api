@@ -17,26 +17,39 @@ public class RolUsuarioController implements IRolUsuarioAPI {
 
     @Override
     public ResponseEntity<?> create(RolUsuarioDTO dto) {
-        return null;
+        service.create(dto);
+        return ResponseEntity
+                .status(201)
+                .body(dto);
     }
 
     @Override
     public ResponseEntity<?> read(Integer id) {
-        return null;
+        return ResponseEntity
+                .status(200)
+                .body(service.read(id));
     }
 
     @Override
     public ResponseEntity<?> update(Integer id, RolUsuarioDTO dto) {
-        return null;
+        service.update(id, dto);
+        return ResponseEntity
+                .status(200)
+                .body(dto);
     }
 
     @Override
     public ResponseEntity<?> delete(Integer id) {
-        return null;
+        service.delete(id);
+        return ResponseEntity
+                .status(204)
+                .build();
     }
 
     @Override
     public ResponseEntity<?> readAll() {
-        return null;
+        return ResponseEntity
+                .status(200)
+                .body(service.readAll());
     }
 }

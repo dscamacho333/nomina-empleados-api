@@ -48,11 +48,6 @@ public class UserDetailService implements UserDetailsService {
                 usuario.isCuentaNoBloqueada(),
                 authorityList
         );
-
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
-        user.getAuthorities().forEach(a ->System.out.println(a));
-
         return user;
 
     }
