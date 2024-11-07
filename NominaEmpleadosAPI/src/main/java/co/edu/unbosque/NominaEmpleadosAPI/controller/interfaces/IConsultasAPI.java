@@ -41,4 +41,24 @@ public interface IConsultasAPI {
             @RequestParam("fechaFin") @DateTimeFormat(pattern = "MM/yyyy") Date fechaFin,
             @RequestParam("dependencia") String dependencia,
             @RequestParam("cargo") String cargo);
+
+    @GetMapping("/empleados-por-dependencia")
+    ResponseEntity<List<ReporteGraficoDependencia>> obtenerEmpleadosPorDependencia();
+
+    @GetMapping("/empleados-por-cargo")
+    ResponseEntity<List<ReporteGraficoCargo>> obtenerEmpleadosPorCargo();
+
+    @GetMapping("/empleados-por-eps")
+    ResponseEntity<List<ReporteGraficoEPS>> obtenerEmpleadosPorEPS();
+
+    @GetMapping("/empleados-por-pension")
+    ResponseEntity<List<ReporteGraficoPension>> obtenerEmpleadosPorPension();
+
+    @GetMapping("/empleados-por-eps-dependencia")
+    ResponseEntity<List<ReporteGraficoEPSDependencia>> obtenerEmpleadosPorEPSyDependencia();
+
+    @GetMapping("/empleados-por-pension-dependencia")
+    ResponseEntity<List<ReporteGraficoPensionDependencia>> obtenerEmpleadosPorPensionYDependencia();
+
+
 }

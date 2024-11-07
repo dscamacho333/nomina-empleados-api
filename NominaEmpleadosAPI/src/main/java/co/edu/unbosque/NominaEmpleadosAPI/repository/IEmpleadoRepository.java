@@ -34,6 +34,13 @@ public interface IEmpleadoRepository extends JpaRepository<Empleado, Integer> {
             "ORDER BY e.dependencia.nombreDependencia ASC")
     List<Object[]> contarEmpleadosPorDependencia();
 
+    @Query("SELECT e.cargo.nombreCargo AS cargo, COUNT(e) AS cantidad " +
+            "FROM Empleado e " +
+            "GROUP BY e.cargo.nombreCargo " +
+            "ORDER BY e.cargo.nombreCargo ASC")
+    List<Object[]> contarEmpleadosPorCargo();
+
+
     @Query("SELECT e FROM Empleado e " +
             "JOIN e.cargo c " +
             "JOIN e.pension p " +
@@ -56,6 +63,34 @@ public interface IEmpleadoRepository extends JpaRepository<Empleado, Integer> {
             "LEFT JOIN Incapacidad i ON i.novedad.id = n.id " +
             "WHERE e.id = :idEmpleado")
    List<Object[]> obtenerInformacionIndividual(@Param("idEmpleado") Integer idEmpleado);
+
+    @Query("SELECT e.eps.nombreEPS AS eps, COUNT(e) AS cantidad " +
+            "FROM Empleado e " +
+            "GROUP BY e.eps.nombreEPS " +
+            "ORDER BY e.eps.nombreEPS ASC")
+    List<Object[]> contarEmpleadosPorEPS();
+
+    @Query("SELECT e.pension.nombrePension AS pension, COUNT(e) AS cantidad " +
+            "FROM Empleado e " +
+            "GROUP BY e.pension.nombrePension " +
+            "ORDER BY e.pension.nombrePension ASC")
+    List<Object[]> contarEmpleadosPorPension();
+
+    @Query("SELECT e.eps.nombreEPS AS eps, e.dependencia.nombreDependencia AS dependencia, COUNT(e) AS cantidad " +
+            "FROM Empleado e " +
+            "GROUP BY e.eps.nombreEPS, e.dependencia.nombreDependencia " +
+            "ORDER BY e.dependencia.nombreDependencia ASC, e.eps.nombreEPS ASC")
+    List<Object[]> contarEmpleadosPorEPSyDependencia();
+
+    @Query("SELECT e.pension.nombrePension AS pension, e.dependencia.nombreDependencia AS dependencia, COUNT(e) AS cantidad " +
+            "FROM Empleado e " +
+            "GROUP BY e.pension.nombrePension, e.dependencia.nombreDependencia " +
+            "ORDER BY e.dependencia.nombreDependencia ASC, e.pension.nombrePension ASC")
+    List<Object[]> contarEmpleadosPorPensionYDependencia();
+
+
+
+
 
 }
 
