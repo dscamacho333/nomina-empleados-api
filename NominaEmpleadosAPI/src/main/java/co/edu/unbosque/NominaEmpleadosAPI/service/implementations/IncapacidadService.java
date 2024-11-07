@@ -31,7 +31,7 @@ public class IncapacidadService implements IService<IncapacidadDTO, Integer> {
     @Override
     public void create(IncapacidadDTO dto) {
         try {
-            Novedad novedad = entityManager.getReference(Novedad.class, dto.getId());
+            Novedad novedad = entityManager.getReference(Novedad.class, dto.getNovedadDTO().getId());
             var incapacidad = Incapacidad.builder()
                     .id(dto.getId())
                     .novedad(novedad)
@@ -56,10 +56,11 @@ public class IncapacidadService implements IService<IncapacidadDTO, Integer> {
 
     @Override
     public void update(Integer id, IncapacidadDTO dto) {
+        read(id);
         dto.setId(id);
-        var incapacidad = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Incapacidad no encontrada para actualizar."));
-        modelMapper.map(dto, incapacidad);
+        var incapacidad = modelMapper.map(dto, Incapacidad.class);
+        Novedad novedad = entityManager.getReference(Novedad.class, dto.getNovedadDTO().getId());
+        incapacidad.setNovedad(novedad);
         repository.save(incapacidad);
     }
 
