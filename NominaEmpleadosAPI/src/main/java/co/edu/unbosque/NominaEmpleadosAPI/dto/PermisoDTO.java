@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PermisoDTO {
+public class PermisoDTO extends DTOBase {
 
     private Integer id;
     private PermisoEnum permisoEnum;

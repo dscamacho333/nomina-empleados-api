@@ -61,7 +61,7 @@ public class CargoService implements IService<CargoDTO, Integer> {
 
     @Override
     public List<CargoDTO> readAll() {
-        var cargos = (List<Cargo>) repository.findAll();
+        var cargos = repository.findAllNonDeleted();
         return cargos
                 .stream()
                 .map((cargo) -> modelMapper.map(cargo, CargoDTO.class))

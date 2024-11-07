@@ -2,6 +2,7 @@ package co.edu.unbosque.NominaEmpleadosAPI.controller.implementations;
 
 import co.edu.unbosque.NominaEmpleadosAPI.controller.interfaces.IDependenciaAPI;
 import co.edu.unbosque.NominaEmpleadosAPI.dto.DependenciaDTO;
+import co.edu.unbosque.NominaEmpleadosAPI.service.implementations.DependenciaService;
 import co.edu.unbosque.NominaEmpleadosAPI.service.interfaces.IService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DependenciaController implements IDependenciaAPI {
 
-    private final IService<DependenciaDTO, Integer> service;
+    private final IService<DependenciaDTO, Integer>  service;
 
     public DependenciaController(IService<DependenciaDTO, Integer> service) {
         this.service = service;

@@ -3,11 +3,10 @@ package co.edu.unbosque.NominaEmpleadosAPI.repository;
 import co.edu.unbosque.NominaEmpleadosAPI.entity.Empleado;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface IEmpleadoRepository extends JpaRepository<Empleado, Integer> {
+public interface IEmpleadoRepository extends BasicRepositoy<Empleado, Integer> {
 
     @Query("SELECT e FROM Empleado e JOIN e.dependencia d " +
             "ORDER BY CASE WHEN :criterioOrden = 'primerNombre' THEN e.primerNombre " +
