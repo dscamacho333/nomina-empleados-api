@@ -60,7 +60,7 @@ public class ARLService implements IService<ARLDTO, Integer> {
 
     @Override
     public List<ARLDTO> readAll() {
-        List<ARL> arlList = (List<ARL>) arlRepository.findAll();
+        List<ARL> arlList = arlRepository.findAllNonDeleted();
         List<ARLDTO> dtoList = arlList.stream()
                 .map(arl -> modelMapper.map(arl, ARLDTO.class))
                 .collect(Collectors.toList());

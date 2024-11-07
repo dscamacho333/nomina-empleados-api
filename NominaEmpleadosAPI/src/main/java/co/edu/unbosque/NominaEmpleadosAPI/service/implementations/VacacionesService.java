@@ -72,7 +72,7 @@ public class VacacionesService implements IService<VacacionesDTO, Integer> {
 
     @Override
     public List<VacacionesDTO> readAll() {
-        var vacaciones = (List<Vacaciones>) repository.findAll();
+        var vacaciones = repository.findAllNonDeleted();
 
         if (vacaciones.isEmpty()) {
             throw new EntityNotFoundException("No se encontraron registros de vacaciones.");

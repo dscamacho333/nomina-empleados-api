@@ -57,7 +57,7 @@ public class PermisoService implements IService<PermisoDTO, Integer> {
 
     @Override
     public List<PermisoDTO> readAll() {
-        var permisos = (List<Permiso>) repository.findAll();
+        var permisos = repository.findAllNonDeleted();
         return permisos
                 .stream()
                 .map((permiso) -> modelMapper.map(permiso, PermisoDTO.class))

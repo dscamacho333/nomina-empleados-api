@@ -10,7 +10,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UsuarioDTO {
+public class UsuarioDTO extends DTOBase {
 
     private Integer id;
     private String usuario;

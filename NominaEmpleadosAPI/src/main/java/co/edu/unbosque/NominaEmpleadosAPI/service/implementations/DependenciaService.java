@@ -55,17 +55,19 @@ public class DependenciaService implements IService<DependenciaDTO, Integer> {
 
     @Override
     public void delete(Integer id) {
-        read(id);
-        repository.deleteById(id);
+        var dependenciaDTO = read(id).get();
+        dependenciaDTO.setDeleted(true);
+        update(id, dependenciaDTO);
     }
 
     @Override
     public List<DependenciaDTO> readAll() {
-        var dependencias = (List<Dependencia>) repository
-                .findAll();
+        var dependencias = repository
+                .findAllNonDeleted();
         return dependencias
                 .stream()
                 .map((dependencia) -> modelMapper.map(dependencia, DependenciaDTO.class))
                 .toList();
     }
+
 }

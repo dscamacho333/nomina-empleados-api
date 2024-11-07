@@ -10,7 +10,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class PensionDTO {
+public class PensionDTO extends DTOBase{
 
     private Integer id;
     private String nombrePension;

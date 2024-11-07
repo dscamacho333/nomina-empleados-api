@@ -73,7 +73,7 @@ public class IncapacidadService implements IService<IncapacidadDTO, Integer> {
 
     @Override
     public List<IncapacidadDTO> readAll() {
-        var incapacidades = (List<Incapacidad>) repository.findAll();
+        var incapacidades = repository.findAllNonDeleted();
 
         if (incapacidades.isEmpty()) {
             throw new EntityNotFoundException("No se encontraron registros de incapacidades.");

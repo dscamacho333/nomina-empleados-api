@@ -9,7 +9,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class IncapacidadDTO {
+public class IncapacidadDTO  extends DTOBase{
 
     private Integer id;
     private NovedadDTO novedadDTO;

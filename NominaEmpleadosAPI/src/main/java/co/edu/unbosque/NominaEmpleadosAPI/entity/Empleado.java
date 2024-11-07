@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "Empleado")
-public class Empleado {
+public class Empleado extends EntidadBase {
 
     @Id
     @Column(name = "id_empleado")

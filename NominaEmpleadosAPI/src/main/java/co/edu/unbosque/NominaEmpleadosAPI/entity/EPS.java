@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "EPS")
-public class EPS {
+public class EPS extends EntidadBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

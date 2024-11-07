@@ -88,7 +88,7 @@ public class EmpleadoService implements IService<EmpleadoDTO, Integer> {
 
     @Override
     public List<EmpleadoDTO> readAll() {
-        var empleados = (List<Empleado>) repository.findAll();
+        var empleados = repository.findAllNonDeleted();
         return empleados
                 .stream()
                 .map((empleado) -> modelMapper.map(empleado, EmpleadoDTO.class))
