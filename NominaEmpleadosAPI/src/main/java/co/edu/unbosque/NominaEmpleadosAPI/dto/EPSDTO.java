@@ -10,7 +10,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class EPSDTO {
+public class EPSDTO extends DTOBase{
 
     private Integer id;
     private String nombreEPS;

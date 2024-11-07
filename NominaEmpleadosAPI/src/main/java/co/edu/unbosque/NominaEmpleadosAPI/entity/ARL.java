@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "ARL")
-public class ARL {
+public class ARL extends EntidadBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,11 +1,7 @@
 package co.edu.unbosque.NominaEmpleadosAPI.configurations;
 
-import co.edu.unbosque.NominaEmpleadosAPI.dto.EmpleadoDTO;
-import co.edu.unbosque.NominaEmpleadosAPI.dto.IncapacidadDTO;
-import co.edu.unbosque.NominaEmpleadosAPI.dto.NovedadDTO;
-import co.edu.unbosque.NominaEmpleadosAPI.entity.Empleado;
-import co.edu.unbosque.NominaEmpleadosAPI.entity.Incapacidad;
-import co.edu.unbosque.NominaEmpleadosAPI.entity.Novedad;
+import co.edu.unbosque.NominaEmpleadosAPI.dto.*;
+import co.edu.unbosque.NominaEmpleadosAPI.entity.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,5 +33,17 @@ public class ModelMapperConfiguration {
         modelMapper.typeMap(Incapacidad.class, IncapacidadDTO.class).addMappings(mapper -> {
             mapper.map(src -> src.getNovedad(), IncapacidadDTO::setNovedadDTO);
         });
+
+        modelMapper.typeMap(RolUsuario.class, RolUsuarioDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getUsuario(), RolUsuarioDTO::setUsuarioDTO);
+            mapper.map(src -> src.getRol(), RolUsuarioDTO::setRolDTO);
+        });
+
+
+        modelMapper.typeMap(PermisoRol.class, PermisoRolDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getRol(), PermisoRolDTO::setRolDTO);
+            mapper.map(src -> src.getPermiso(), PermisoRolDTO::setPermisoDTO);
+        });
+
     }
 }

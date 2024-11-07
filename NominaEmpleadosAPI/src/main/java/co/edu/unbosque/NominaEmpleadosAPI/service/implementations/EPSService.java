@@ -61,7 +61,7 @@ public class EPSService implements IService<EPSDTO, Integer> {
 
     @Override
     public List<EPSDTO> readAll() {
-        List<EPS> epsList = (List<EPS>) epsRepository.findAll();
+        List<EPS> epsList = epsRepository.findAllNonDeleted();
         List<EPSDTO> dtoList = epsList.stream()
                 .map(eps -> modelMapper.map(eps, EPSDTO.class))
                 .collect(Collectors.toList());

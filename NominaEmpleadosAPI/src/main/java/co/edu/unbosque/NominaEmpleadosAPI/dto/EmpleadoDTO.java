@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class EmpleadoDTO {
+public class EmpleadoDTO extends DTOBase {
 
     private Integer id;
     private String primerApellido;

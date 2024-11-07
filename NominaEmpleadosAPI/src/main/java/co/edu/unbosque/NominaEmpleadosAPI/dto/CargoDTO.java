@@ -11,7 +11,7 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class CargoDTO {
+public class CargoDTO extends DTOBase {
 
     private Integer id;
     private String nombreCargo;
