@@ -5,6 +5,7 @@ import co.edu.unbosque.NominaEmpleadosAPI.exceptions.exceptions.BadRequestExcept
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -22,5 +23,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(404)
                 .body(new BaseResponse(e.getMessage(), 404));
     }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<BaseResponse> handleBadCredentialsException(BadCredentialsException e) {
+        return ResponseEntity.status(404)
+                .body(new BaseResponse(e.getMessage(), 404));
+    }
+
 
 }
