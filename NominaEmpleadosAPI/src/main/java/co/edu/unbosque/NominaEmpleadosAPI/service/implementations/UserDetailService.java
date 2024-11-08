@@ -38,7 +38,7 @@ public class UserDetailService implements UserDetailsService {
 
         Usuario usuario = repository
                 .findUsuarioByUsuario(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User: " + username + "does not exist!"));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario: " + username + " no existe!"));
 
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
 
@@ -83,7 +83,7 @@ public class UserDetailService implements UserDetailsService {
 
         UserDetails userDetails = this.loadUserByUsername(usuario);
 
-        if(userDetails == null || !passwordEncoder.matches(contrasenia, userDetails.getPassword())){
+        if(!passwordEncoder.matches(contrasenia, userDetails.getPassword())){
             throw  new BadCredentialsException("Usuario o contraseña invalidos!");
         }
 
