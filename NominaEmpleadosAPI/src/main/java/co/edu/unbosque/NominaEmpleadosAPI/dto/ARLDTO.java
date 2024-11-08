@@ -10,7 +10,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ARLDTO {
+public class ARLDTO  extends DTOBase{
 
     private Integer id;
     private String nombreARL;

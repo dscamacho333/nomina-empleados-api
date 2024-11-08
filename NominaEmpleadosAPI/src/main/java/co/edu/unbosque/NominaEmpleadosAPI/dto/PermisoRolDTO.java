@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PermisoRolDTO {
+public class PermisoRolDTO extends DTOBase {
 
     private Integer id;
     private RolDTO rolDTO;

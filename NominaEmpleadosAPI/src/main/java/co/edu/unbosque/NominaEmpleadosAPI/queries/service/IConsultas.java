@@ -13,4 +13,11 @@ public interface IConsultas {
     ReporteInformacionIndividual obtenerInformacionIndividual(Integer idEmpleado);
     List<ReporteFechaNovedad> obtenerNovedadesPorFechas(Date fechaInicio, Date fechaFin);
     List<ReporteDetalleNovedad> obtenerNovedadesPorRangoFechaCargoDependencia(Date fechaInicio, Date fechaFin, String dependencia, String cargo);
+    List<ReporteGraficoDependencia> obtenerEmpleadosPorDependencia ();
+    List<ReporteGraficoCargo> obtenerEmpleadosPorCargo();
+    List<ReporteGraficoEPS> obtenerEmpleadosPorEPS();
+    List<ReporteGraficoPension> obtenerEmpleadosPorPension ();
+    List<ReporteGraficoEPSDependencia> obtenerEmpleadosPorEPSyDependencia();
+    List<ReporteGraficoPensionDependencia> obtenerEmpleadosPorPensionYDependencia();
+
 }

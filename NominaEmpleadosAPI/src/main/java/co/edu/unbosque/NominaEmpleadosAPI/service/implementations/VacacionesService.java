@@ -31,7 +31,7 @@ public class VacacionesService implements IService<VacacionesDTO, Integer> {
     @Override
     public void create(VacacionesDTO dto) {
         try {
-            Novedad novedad = entityManager.getReference(Novedad.class, dto.getId());
+            Novedad novedad = entityManager.getReference(Novedad.class, dto.getNovedad().getId());
             var vacacion = Vacaciones.builder()
                     .id(dto.getId())
                     .novedad(novedad)
@@ -55,11 +55,12 @@ public class VacacionesService implements IService<VacacionesDTO, Integer> {
 
     @Override
     public void update(Integer id, VacacionesDTO dto) {
+        read(id);
         dto.setId(id);
-        var vacacion = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Vacaciones no encontradas para actualizar."));
-        modelMapper.map(dto, vacacion);
-        repository.save(vacacion);
+        var vacaciones = modelMapper.map(dto, Vacaciones.class);
+        Novedad novedad = entityManager.getReference(Novedad.class, dto.getNovedad().getId());
+        vacaciones.setNovedad(novedad);
+        repository.save(vacaciones);
     }
 
     @Override
@@ -72,7 +73,7 @@ public class VacacionesService implements IService<VacacionesDTO, Integer> {
 
     @Override
     public List<VacacionesDTO> readAll() {
-        var vacaciones = (List<Vacaciones>) repository.findAll();
+        var vacaciones = repository.findAllNonDeleted();
 
         if (vacaciones.isEmpty()) {
             throw new EntityNotFoundException("No se encontraron registros de vacaciones.");

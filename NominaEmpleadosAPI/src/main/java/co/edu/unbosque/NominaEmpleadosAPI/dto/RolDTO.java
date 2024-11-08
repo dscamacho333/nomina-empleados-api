@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RolDTO {
+public class RolDTO extends DTOBase{
 
     private Integer id;
     private RolEnum rolEnum;

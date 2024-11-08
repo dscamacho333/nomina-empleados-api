@@ -60,7 +60,7 @@ public class PensionService implements IService<PensionDTO, Integer> {
 
     @Override
     public List<PensionDTO> readAll() {
-        List<Pension> pensions = (List<Pension>) pensionRepository.findAll();
+        List<Pension> pensions = pensionRepository.findAllNonDeleted();
         List<PensionDTO> auxList = pensions
                 .stream()
                 .map(pension -> modelMapper.map(pension, PensionDTO.class))
