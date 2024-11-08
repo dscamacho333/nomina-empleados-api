@@ -65,7 +65,7 @@ public class RolUsuarioService implements IService<RolUsuarioDTO, Integer> {
 
     @Override
     public List<RolUsuarioDTO> readAll() {
-        var rolesUsuario = (List<RolUsuario>) repository.findAll();
+        var rolesUsuario = repository.findAllNonDeleted();
         return rolesUsuario
                 .stream()
                 .map((rolUsuario) -> modelMapper.map(rolUsuario, RolUsuarioDTO.class))

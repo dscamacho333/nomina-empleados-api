@@ -75,7 +75,7 @@ public class NovedadService implements IService<NovedadDTO, Integer> {
 
     @Override
     public List<NovedadDTO> readAll() {
-        var novedades = (List<Novedad>) repository.findAll();
+        var novedades = repository.findAllNonDeleted();
 
         if (novedades.isEmpty()) {
             throw new EntityNotFoundException("No se encontraron registros de novedades.");

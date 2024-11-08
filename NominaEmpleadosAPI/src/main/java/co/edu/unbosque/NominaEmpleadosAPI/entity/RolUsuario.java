@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "Rol_Usuario" )
-public class RolUsuario {
+public class RolUsuario extends EntidadBase{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,17 +1,16 @@
 package co.edu.unbosque.NominaEmpleadosAPI.queries.service;
 
+
 import co.edu.unbosque.NominaEmpleadosAPI.dto.EmpleadoDTO;
 import co.edu.unbosque.NominaEmpleadosAPI.queries.response.*;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.CargoDependenciaDTO;
-import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.CantidadDependenciaDTO;
+import co.edu.unbosque.NominaEmpleadosAPI.queries.response.dto.*;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.IEmpleadoRepository;
 import co.edu.unbosque.NominaEmpleadosAPI.repository.INovedadRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ConsultasService implements IConsultas {
@@ -135,4 +134,108 @@ public class ConsultasService implements IConsultas {
                 .toList();
     }
 
+    @Override
+    public List<ReporteGraficoDependencia> obtenerEmpleadosPorDependencia() {
+        List<Object[]> resultados = empleadoRepository.contarEmpleadosPorDependencia();
+        List<CantidadDependenciaDTO> cantidadDependenciaDTOList = new ArrayList<>();
+
+        resultados.forEach(resultado -> {
+            String dependencia = (String) resultado[0];
+            Long cantidadEmpleados = (Long) resultado[1];
+            cantidadDependenciaDTOList.add(new CantidadDependenciaDTO(dependencia, cantidadEmpleados));
+        });
+
+
+        return List.of(new ReporteGraficoDependencia(cantidadDependenciaDTOList));
+
+    }
+
+    @Override
+    public List<ReporteGraficoCargo> obtenerEmpleadosPorCargo() {
+        List<Object[]> resultados = empleadoRepository.contarEmpleadosPorCargo();
+        List<CantidadCargoDTO> cantidadPorCargo = new ArrayList<>();
+
+        resultados.forEach(resultado -> {
+            String cargo = (String) resultado[0];
+            Long cantidad = (Long) resultado[1];
+            cantidadPorCargo.add(new CantidadCargoDTO(cargo, cantidad));
+        });
+
+        return List.of(new ReporteGraficoCargo(cantidadPorCargo));
+    }
+
+    @Override
+    public List<ReporteGraficoEPS> obtenerEmpleadosPorEPS() {
+        List<Object[]> resultados = empleadoRepository.contarEmpleadosPorEPS();
+        List<CantidadEPSDTO> cantidadPorEPS = new ArrayList<>();
+
+        resultados.forEach(resultado -> {
+            String eps = (String) resultado[0];
+            Long cantidad = (Long) resultado[1];
+            cantidadPorEPS.add(new CantidadEPSDTO(eps, cantidad));
+        });
+
+        return List.of(new ReporteGraficoEPS(cantidadPorEPS));
+    }
+
+    @Override
+    public List<ReporteGraficoPension> obtenerEmpleadosPorPension() {
+        List<Object[]> resultados = empleadoRepository.contarEmpleadosPorPension();
+        List<CantidadPensionDTO> cantidadPorPension = new ArrayList<>();
+
+        resultados.forEach(resultado -> {
+            String pension = (String) resultado[0];
+            Long cantidad = (Long) resultado[1];
+            cantidadPorPension.add(new CantidadPensionDTO(pension, cantidad));
+        });
+
+        return List.of(new ReporteGraficoPension(cantidadPorPension));
+    }
+
+    @Override
+    public List<ReporteGraficoEPSDependencia> obtenerEmpleadosPorEPSyDependencia() {
+
+        List<Object[]> resultados = empleadoRepository.contarEmpleadosPorEPSyDependencia();
+        List<EmpleadosPorEPSyDependenciaDTO> empleadosPorEPSyDependenciaList = new ArrayList<>();
+
+
+        for (Object[] resultado : resultados) {
+            String eps = (String) resultado[0]; // EPS
+            String dependencia = (String) resultado[1]; // Dependencia
+            Long cantidad = (Long) resultado[2]; // Cantidad de empleados
+
+
+            empleadosPorEPSyDependenciaList.add(new EmpleadosPorEPSyDependenciaDTO(eps, dependencia, cantidad));
+        }
+
+        ReporteGraficoEPSDependencia reporte = new ReporteGraficoEPSDependencia(empleadosPorEPSyDependenciaList);
+
+
+        return List.of(reporte);
+    }
+
+    @Override
+    public List<ReporteGraficoPensionDependencia> obtenerEmpleadosPorPensionYDependencia() {
+        List<Object[]> resultados = empleadoRepository.contarEmpleadosPorPensionYDependencia();
+
+        List<EmpleadorPorPensionYDependenciaDTO> empleadorPorPensionYDependenciaList = new ArrayList<>();
+
+        resultados.forEach(resultado -> {
+            String pension = (String) resultado[0];
+            String dependencia = (String) resultado[1];
+            Long cantidad = (Long) resultado[2];
+
+            empleadorPorPensionYDependenciaList.add(new EmpleadorPorPensionYDependenciaDTO(pension, dependencia, cantidad));
+        });
+
+        ReporteGraficoPensionDependencia reporte = new ReporteGraficoPensionDependencia(empleadorPorPensionYDependenciaList);
+
+        return List.of(reporte);
+    }
 }
+
+
+
+
+
+

@@ -54,5 +54,42 @@ public class ConsultasController implements IConsultasAPI {
         List<ReporteDetalleNovedad> reporteNovedades = service.obtenerNovedadesPorRangoFechaCargoDependencia(fechaInicio, fechaFin, dependencia, cargo);
         return ResponseEntity.status(HttpStatus.OK).body(reporteNovedades);
     }
-}
 
+    @Override
+    public ResponseEntity<List<ReporteGraficoDependencia>> obtenerEmpleadosPorDependencia() {
+        List<ReporteGraficoDependencia> reporteDependencia = service.obtenerEmpleadosPorDependencia();
+        return ResponseEntity.status(HttpStatus.OK).body(reporteDependencia);
+    }
+
+    @Override
+    public ResponseEntity<List<ReporteGraficoCargo>> obtenerEmpleadosPorCargo() {
+        List<ReporteGraficoCargo> reporteCargo = service.obtenerEmpleadosPorCargo();
+        return ResponseEntity.status(HttpStatus.OK).body(reporteCargo);
+    }
+
+    @Override
+    public ResponseEntity<List<ReporteGraficoEPS>> obtenerEmpleadosPorEPS() {
+        List<ReporteGraficoEPS> reporteEPS = service.obtenerEmpleadosPorEPS();
+        return ResponseEntity.status(HttpStatus.OK).body(reporteEPS);
+    }
+
+    @Override
+    public ResponseEntity<List<ReporteGraficoPension>> obtenerEmpleadosPorPension() {
+        List<ReporteGraficoPension> reportePension = service.obtenerEmpleadosPorPension();
+        return ResponseEntity.status(HttpStatus.OK).body(reportePension);
+    }
+
+    @Override
+    public ResponseEntity<List<ReporteGraficoEPSDependencia>> obtenerEmpleadosPorEPSyDependencia() {
+        List<ReporteGraficoEPSDependencia> reporteEPSDependencia = service.obtenerEmpleadosPorEPSyDependencia();
+        return ResponseEntity.status(HttpStatus.OK).body(reporteEPSDependencia);
+    }
+
+    @Override
+    public ResponseEntity<List<ReporteGraficoPensionDependencia>> obtenerEmpleadosPorPensionYDependencia() {
+        List<ReporteGraficoPensionDependencia> reporte = service.obtenerEmpleadosPorPensionYDependencia();
+        return ResponseEntity.status(HttpStatus.OK).body(reporte);
+    }
+
+
+}

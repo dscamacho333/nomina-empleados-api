@@ -23,5 +23,4 @@ public interface IDependenciaAPI {
 
     @GetMapping("/listar")
     ResponseEntity<?> readAll();
-
 }

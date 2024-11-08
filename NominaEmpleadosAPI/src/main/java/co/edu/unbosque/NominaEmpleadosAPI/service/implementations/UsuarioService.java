@@ -62,7 +62,7 @@ public class UsuarioService implements IService<UsuarioDTO, Integer> {
 
     @Override
     public List<UsuarioDTO> readAll() {
-        var usuarios = (List<Usuario>) repository.findAll();
+        var usuarios = repository.findAllNonDeleted();
         return usuarios
                 .stream()
                 .map((usuario) -> modelMapper.map(usuario, UsuarioDTO.class))
