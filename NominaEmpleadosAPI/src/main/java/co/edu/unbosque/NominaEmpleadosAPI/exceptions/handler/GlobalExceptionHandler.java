@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
                 .body(new BaseResponse(e.getMessage(), 404));
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<BaseResponse> handleBadCredentialsException(BadCredentialsException e) {
         return ResponseEntity.status(404)
                 .body(new BaseResponse(e.getMessage(), 404));
