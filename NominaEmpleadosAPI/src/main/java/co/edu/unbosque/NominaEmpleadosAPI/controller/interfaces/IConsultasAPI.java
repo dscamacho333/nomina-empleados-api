@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/api/consultas/v1")
-@PreAuthorize("hasAnyRole('ADMIN','DESARROLLADOR', 'USUARIO')")
+git@PreAuthorize("hasAnyRole('ADMIN','DESARROLLADOR', 'USUARIO')")
 public interface IConsultasAPI {
 
     @GetMapping("/empleados-ordenados")
@@ -60,5 +61,7 @@ public interface IConsultasAPI {
     @GetMapping("/empleados-por-pension-dependencia")
     ResponseEntity<List<ReporteGraficoPensionDependencia>> obtenerEmpleadosPorPensionYDependencia();
 
+    @GetMapping("/{nombreDependencia}/cargos")
+    ResponseEntity<List<String>> obtenerCargosPorDependencia(@PathVariable String nombreDependencia);
 
 }

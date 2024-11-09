@@ -10,8 +10,7 @@ import jakarta.persistence.PersistenceException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DependenciaService implements IService<DependenciaDTO, Integer> {
@@ -22,15 +21,17 @@ public class DependenciaService implements IService<DependenciaDTO, Integer> {
     public DependenciaService(IDependenciaRepository repository, ModelMapper modelMapper) {
         this.repository = repository;
         this.modelMapper = modelMapper;
+
     }
+
+
 
     @Override
     public void create(DependenciaDTO dto) {
-        try{
+        try {
             var dependencia = modelMapper.map(dto, Dependencia.class);
             repository.save(dependencia);
-
-        }catch (PersistenceException exception){
+        } catch (PersistenceException exception) {
             throw new BadRequestException("Error al crear la dependencia!");
         }
     }
@@ -69,5 +70,4 @@ public class DependenciaService implements IService<DependenciaDTO, Integer> {
                 .map((dependencia) -> modelMapper.map(dependencia, DependenciaDTO.class))
                 .toList();
     }
-
 }

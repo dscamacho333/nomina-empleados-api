@@ -91,5 +91,10 @@ public class ConsultasController implements IConsultasAPI {
         return ResponseEntity.status(HttpStatus.OK).body(reporte);
     }
 
+    @Override
+    public ResponseEntity<List<String>> obtenerCargosPorDependencia(String nombreDependencia) {
+        List<String> cargos = service.obtenerCargosPorDependencia(nombreDependencia);
+        return ResponseEntity.ok(cargos);
+    }
 
 }

@@ -18,11 +18,18 @@ public class ConsultasService implements IConsultas {
     private final IEmpleadoRepository empleadoRepository;
     private final INovedadRepository novedadRepository;
     private final ModelMapper modelMapper;
+    private final Map<String, List<String>> dependenciaCargosMap;
 
     public ConsultasService(IEmpleadoRepository empleadoRepository, INovedadRepository novedadRepository, ModelMapper modelMapper) {
         this.empleadoRepository = empleadoRepository;
         this.novedadRepository = novedadRepository;
         this.modelMapper = modelMapper;
+        this.dependenciaCargosMap = new HashMap<>();
+        dependenciaCargosMap.put("Comercial", Arrays.asList("Gerente de ventas", "Director de ventas", "Asesor Comercial"));
+        dependenciaCargosMap.put("Contabilidad", Arrays.asList("Director de Impuestos", "Auditor interno", "Director de presupuestos", "Director de costos"));
+        dependenciaCargosMap.put("Facturacion", Arrays.asList("Auxiliar especializado", "Director de Facturacion", "Director de cartera"));
+        dependenciaCargosMap.put("Tecnologia", Arrays.asList("Ingeniero de Desarrollo", "Ingeniero de Soporte", "DBA", "Lider de infraestructura", "Lider de QA", "Analista QA", "Gerente TI", "Arquitecto de Software"));
+
     }
 
     @Override
@@ -121,15 +128,15 @@ public class ConsultasService implements IConsultas {
                         (String) obj[1],
                         (String) obj[2],
                         (String) obj[3],
-                        (Long) obj[4],
-                        (Date) obj[5],
-                        (Date) obj[6],
-                        (Long) obj[7],
-                        (Date) obj[8],
-                        (Date) obj[9],
-                        (Double) obj[10],
-                        (Double) obj[11],
-                        (Double) obj[12]
+                        obj[4] != null ? ((Number) obj[4]).longValue() : 0L,
+                        obj[5] != null ? (Date) obj[5] : null,
+                        obj[6] != null ? (Date) obj[6] : null,
+                        obj[7] != null ? ((Number) obj[7]).longValue() : 0L,
+                        obj[8] != null ? (Date) obj[8] : null,
+                        obj[9] != null ? (Date) obj[9] : null,
+                        obj[10] != null ? ((Number) obj[10]).doubleValue() : 0.0,
+                        obj[11] != null ? ((Number) obj[11]).doubleValue() : 0.0,
+                        obj[12] != null ? ((Number) obj[12]).doubleValue() : 0.0
                 ))
                 .toList();
     }
@@ -231,6 +238,11 @@ public class ConsultasService implements IConsultas {
         ReporteGraficoPensionDependencia reporte = new ReporteGraficoPensionDependencia(empleadorPorPensionYDependenciaList);
 
         return List.of(reporte);
+    }
+
+    @Override
+    public List<String> obtenerCargosPorDependencia(String nombreDependencia) {
+        return dependenciaCargosMap.getOrDefault(nombreDependencia, List.of());
     }
 }
 

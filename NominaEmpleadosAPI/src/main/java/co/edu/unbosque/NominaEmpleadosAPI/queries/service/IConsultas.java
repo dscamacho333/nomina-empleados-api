@@ -19,5 +19,5 @@ public interface IConsultas {
     List<ReporteGraficoPension> obtenerEmpleadosPorPension ();
     List<ReporteGraficoEPSDependencia> obtenerEmpleadosPorEPSyDependencia();
     List<ReporteGraficoPensionDependencia> obtenerEmpleadosPorPensionYDependencia();
-
+    List<String> obtenerCargosPorDependencia(String nombreDependencia);
 }

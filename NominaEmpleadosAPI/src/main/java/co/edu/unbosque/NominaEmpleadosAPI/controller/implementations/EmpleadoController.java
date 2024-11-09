@@ -6,6 +6,9 @@ import co.edu.unbosque.NominaEmpleadosAPI.service.interfaces.IService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 public class EmpleadoController implements IEmpleadoAPI {
 
@@ -51,6 +54,17 @@ public class EmpleadoController implements IEmpleadoAPI {
         return ResponseEntity
                 .status(200)
                 .body(service.readAll());
+    }
+
+    @Override
+    public ResponseEntity<?> readAllIds() {
+        List<Integer> ids = service.readAll()
+                .stream()
+                .map(EmpleadoDTO::getId)
+                .collect(Collectors.toList());
+        return ResponseEntity
+                .status(200)
+                .body(ids);
     }
 
 }
