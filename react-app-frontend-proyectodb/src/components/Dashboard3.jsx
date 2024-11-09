@@ -1,16 +1,20 @@
-// src/components/Dashboard3.jsx
-
-import React, { useEffect, useState } from "react";
-import { Grid, Typography, Select, MenuItem } from "@mui/material";
+import React, { useEffect, useState, useRef } from "react";
+import { Grid, Typography, Select, MenuItem, Button } from "@mui/material";
+import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
+import html2canvas from "html2canvas";
 import { Barchart } from "./Barchart";
 import {
   getEmpleadosPorEPSyDependencia,
   getEmpleadosPorPensionYDependencia,
 } from "./EmpleadoChart";
+import { DashboardPDF } from "./DashboardPDF";
 
 export const Dashboard3 = () => {
   const [data, setData] = useState([]);
   const [selectedDataType, setSelectedDataType] = useState("eps");
+  const [chartImage, setChartImage] = useState(null);
+  const [showPDFPreview, setShowPDFPreview] = useState(false);
+  const chartRef = useRef(null);
 
   const loadData = async () => {
     try {
@@ -39,9 +43,25 @@ export const Dashboard3 = () => {
     loadData();
   }, [selectedDataType]);
 
+  const captureChart = async () => {
+    if (chartRef.current) {
+      const canvas = await html2canvas(chartRef.current);
+      const imageData = canvas.toDataURL("image/png");
+      setChartImage(imageData);
+    }
+  };
+
+  const handlePreviewPDF = async () => {
+    await captureChart();
+    setShowPDFPreview(true);
+  };
+
+  const dataTypeText = selectedDataType === "eps" ? "por EPS" : "por Pensión";
+  const pdfTitle = `Dashboard Comparativo de Empleados ${dataTypeText} para Todas las Dependencias`;
+
   return (
     <>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom align="center">
         Dashboard Comparativo de{" "}
         {selectedDataType === "eps" ? "EPS" : "Pensión"} por Dependencia
       </Typography>
@@ -57,7 +77,7 @@ export const Dashboard3 = () => {
       </Select>
 
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid item xs={12} ref={chartRef}>
           <Typography variant="h6">
             Gráfico Comparativo de{" "}
             {selectedDataType === "eps" ? "EPS" : "Pensión"} para Todas las
@@ -72,6 +92,31 @@ export const Dashboard3 = () => {
           />
         </Grid>
       </Grid>
+
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handlePreviewPDF}
+        style={{ marginTop: 20 }}
+      >
+        Previsualizar PDF
+      </Button>
+
+      <PDFDownloadLink
+        document={<DashboardPDF title={pdfTitle} chartImage={chartImage} />}
+        fileName={pdfTitle.replace(/ /g, "_").toLowerCase() + ".pdf"}
+        style={{ textDecoration: "none", marginTop: 10 }}
+      >
+        <Button variant="contained" color="secondary">
+          Descargar PDF
+        </Button>
+      </PDFDownloadLink>
+
+      {showPDFPreview && chartImage && (
+        <PDFViewer style={{ width: "100%", height: "500px", marginTop: 20 }}>
+          <DashboardPDF title={pdfTitle} chartImage={chartImage} />
+        </PDFViewer>
+      )}
     </>
   );
 };

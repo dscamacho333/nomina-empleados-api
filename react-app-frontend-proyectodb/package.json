@@ -13,17 +13,19 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^6.1.6",
+    "@react-pdf/renderer": "^4.0.0",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.6",
     "chartjs-plugin-datalabels": "^2.2.0",
     "dotenv": "^16.4.5",
+    "html2canvas": "^1.0.0-alpha.12",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.5",
     "react-chartjs-2": "^5.2.0",
-    "react-dom": "^18.2.0",
+    "react-dom": "^18.3.1",
     "react-google-recaptcha": "^3.1.0",
-    "react-router-dom": "^6.27.0"
+    "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
