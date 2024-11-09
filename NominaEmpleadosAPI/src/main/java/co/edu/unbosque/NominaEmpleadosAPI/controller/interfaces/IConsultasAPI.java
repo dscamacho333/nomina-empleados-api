@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/api/consultas/v1")
-git@PreAuthorize("hasAnyRole('ADMIN','DESARROLLADOR', 'USUARIO')")
+@PreAuthorize("hasAnyRole('ADMIN','DESARROLLADOR', 'USUARIO')")
 public interface IConsultasAPI {
 
     @GetMapping("/empleados-ordenados")
