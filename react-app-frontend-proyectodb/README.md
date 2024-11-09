@@ -8,4 +8,4 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 npm i
-npm i @emotion/react @emotion/styled @mui/material axios bootstrap chart.js chartjs-plugin-datalabels dotenv react-bootstrap react-chartjs-2 react-dom react-google-recaptcha react-router-dom
+npm i @emotion/react @emotion/styled @mui/material axios bootstrap chart.js chartjs-plugin-datalabels dotenv react-bootstrap react-chartjs-2 react-dom react-google-recaptcha react-router-dom @react-pdf/renderer
