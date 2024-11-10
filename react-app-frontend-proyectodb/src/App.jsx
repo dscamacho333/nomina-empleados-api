@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -22,33 +22,39 @@ import { Dashboard3 } from "./components/Dashboard3";
 import Register from "./components/Register";
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
   return (
     <Router>
       <main>
         <Routes>
-          {/* Ruta para la página principal */}
-          <Route path="/" element={<Home />} />
+          {/* Ruta para la página principal, protegida */}
+          <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" replace />} />
+          
           {/* Ruta para la página de inicio de sesión */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/register" element={<Register />} />
-          {/* Ruta para los componentes individuales */}
-          <Route path="/dependencias" element={<Dependencias />} />
-          <Route path="/arl" element={<ARL />} />
-          <Route path="/cargos" element={<Cargos />} />
-          <Route path="/eps" element={<EPS />} />
-          <Route path="/pension" element={<Pension />} />
-          <Route path="/empleado" element={<Empleado />} />
-          <Route path="/novedad" element={<Novedad />} />{" "}
-          {/* Nueva ruta para Novedad */}
-          <Route path="/incapacidad" element={<Incapacidad />} />{" "}
-          {/* Nueva ruta para Incapacidad */}
-          <Route path="/vacaciones" element={<Vacaciones />} />{" "}
-          {/* Nueva ruta para Vacaciones */}
-          <Route path="/reporte1" element={<Dashboard />} />
-          <Route path="/reporte2" element={<Dashboard2 />} />
-          <Route path="/reporte3" element={<Dashboard3 />} />
-          {/* Redireccionar cualquier ruta desconocida a la página principal */}
-          <Route path="*" element={<Navigate to="/" />} />
+
+          {/* Rutas para los componentes individuales protegidas */}
+          <Route path="/dependencias" element={isAuthenticated ? <Dependencias /> : <Navigate to="/login" replace />} />
+          <Route path="/arl" element={isAuthenticated ? <ARL /> : <Navigate to="/login" replace />} />
+          <Route path="/cargos" element={isAuthenticated ? <Cargos /> : <Navigate to="/login" replace />} />
+          <Route path="/eps" element={isAuthenticated ? <EPS /> : <Navigate to="/login" replace />} />
+          <Route path="/pension" element={isAuthenticated ? <Pension /> : <Navigate to="/login" replace />} />
+          <Route path="/empleado" element={isAuthenticated ? <Empleado /> : <Navigate to="/login" replace />} />
+          <Route path="/novedad" element={isAuthenticated ? <Novedad /> : <Navigate to="/login" replace />} />
+          <Route path="/incapacidad" element={isAuthenticated ? <Incapacidad /> : <Navigate to="/login" replace />} />
+          <Route path="/vacaciones" element={isAuthenticated ? <Vacaciones /> : <Navigate to="/login" replace />} />
+          <Route path="/reporte1" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />} />
+          <Route path="/reporte2" element={isAuthenticated ? <Dashboard2 /> : <Navigate to="/login" replace />} />
+          <Route path="/reporte3" element={isAuthenticated ? <Dashboard3 /> : <Navigate to="/login" replace />} />
+
+          {/* Ruta para redirigir todas las rutas no definidas al login */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </main>
     </Router>

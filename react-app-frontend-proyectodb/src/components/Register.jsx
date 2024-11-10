@@ -10,13 +10,32 @@ function Register() {
 
   const styles = {
     header: {
-      /* estilos similares a Login */
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "20px 40px",
+      backgroundColor: "#F5F5F0",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      width: "100%",
+      position: "fixed",
+      top: 0,
+      left: 0,
+      zIndex: 1000,
+      borderBottom: "2px solid #ddd",
     },
     logo: {
-      /* estilos similares a Login */
+      fontSize: "2.5em",
+      fontWeight: "bold",
+      color: "#003500",
     },
     content: {
-      /* estilos similares a Login */
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      width: "100%",
+      padding: "20px",
+      marginTop: "100px",
     },
     registerContainer: {
       backgroundColor: "#fff",
@@ -29,13 +48,26 @@ function Register() {
       animation: "fadeIn 1.5s ease-in-out",
     },
     input: {
-      /* estilos de input similares a Login */
+      width: "100%",
+      padding: "10px",
+      maxWidth: "300px",
+      borderRadius: "5px",
+      border: "1px solid #ccc",
+      margin: "10px 0",
     },
     button: {
-      /* estilos de button similares a Login */
+      backgroundColor: "#5cb85c",
+      color: "#fff",
+      padding: "10px 15px",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer",
+      width: "100%",
+      maxWidth: "300px",
+      transition: "background-color 0.3s ease",
     },
     buttonHover: {
-      /* estilos de button hover similares a Login */
+      backgroundColor: "#4cae4c",
     },
   };
 
@@ -48,19 +80,16 @@ function Register() {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:8080/api/usuario/v1/crear",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            usuario: username,
-            contrasenia: password,
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:8080/api/usuario/v1/crear", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          usuario: username,
+          contrasenia: password,
+        }),
+      });
 
       if (response.ok) {
         alert("Usuario registrado con éxito.");
@@ -78,6 +107,9 @@ function Register() {
 
   return (
     <div style={styles.content}>
+      <header style={styles.header}>
+        <div style={styles.logo}>UroCol - Registro</div>
+      </header>
       <div style={styles.registerContainer}>
         <h2>Regístrate</h2>
         <form onSubmit={handleSubmit}>

@@ -9,9 +9,11 @@ function Pension() {
     fetchPensiones();
   }, []);
 
+  const getToken = () => localStorage.getItem("jwtToken");
+
   const validateForm = () => {
     if (!nombre) {
-      alert('Por favor ingresa un nombre para la dependencia');
+      alert('Por favor ingresa un nombre para la pensión');
       return false;
     }
     return true;
@@ -19,10 +21,10 @@ function Pension() {
 
   const fetchPensiones = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/pension/v1/listar');
-      if (!response.ok) {
-        throw new Error('Error al obtener las pensiones');
-      }
+      const response = await fetch('http://localhost:8080/api/pension/v1/listar', {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+      if (!response.ok) throw new Error('Error al obtener las pensiones');
       const data = await response.json();
       setPensiones(data);
     } catch (error) {
@@ -30,30 +32,23 @@ function Pension() {
     }
   };
 
-  const saveOrUpdatePension = (e) => {
+  const saveOrUpdatePension = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
       const pensionItem = { nombrePension: nombre };
 
-      if (editId) {
-        updatePension(editId, pensionItem)
-          .then((response) => {
-            console.log(response.data);
-            fetchPensiones();
-          })
-          .catch((error) => {
-            console.error('Error al actualizar la pensión:', error);
-          });
-      } else {
-        createPension(pensionItem)
-          .then((response) => {
-            console.log(response.data);
-            fetchPensiones();
-          })
-          .catch((error) => {
-            console.error('Error al crear la pensión:', error);
-          });
+      try {
+        const response = editId 
+          ? await updatePension(editId, pensionItem)
+          : await createPension(pensionItem);
+
+        console.log('Respuesta:', response);
+        fetchPensiones();
+        setNombre('');
+        setEditId(null);
+      } catch (error) {
+        console.error(`Error al ${editId ? 'actualizar' : 'crear'} la pensión:`, error);
       }
     }
   };
@@ -61,7 +56,10 @@ function Pension() {
   const createPension = async (pensionItem) => {
     return await fetch('http://localhost:8080/api/pension/v1/crear', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getToken()}`
+      },
       body: JSON.stringify(pensionItem),
     });
   };
@@ -69,7 +67,10 @@ function Pension() {
   const updatePension = async (id, pensionItem) => {
     return await fetch(`http://localhost:8080/api/pension/v1/actualizar/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getToken()}`
+      },
       body: JSON.stringify(pensionItem),
     });
   };
@@ -78,6 +79,7 @@ function Pension() {
     try {
       await fetch(`http://localhost:8080/api/pension/v1/eliminar/${id}`, {
         method: 'DELETE',
+        headers: { Authorization: `Bearer ${getToken()}` },
       });
       fetchPensiones();
     } catch (error) {
@@ -95,7 +97,7 @@ function Pension() {
       {/* Encabezado */}
       <header style={styles.header}>
         <div style={styles.logo}>
-          <h1>UroCol - Pension</h1>
+          <h1>UroCol - Pensión</h1>
         </div>
         <button style={styles.contactButton}>Contáctanos</button>
       </header>
@@ -124,7 +126,7 @@ function Pension() {
           </form>
         </section>
 
-        {/* Tabla de pensiones (separada del formulario) */}
+        {/* Tabla de pensiones */}
         <section style={styles.tableSection}>
           <h2 style={styles.title}>Listado de Pensiones</h2>
           <table style={styles.table}>
@@ -164,126 +166,133 @@ function Pension() {
     </>
   );
 }
-
 const styles = {
   header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '20px 40px',
-    backgroundColor: '#F5F5F0',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    width: '100%',
-    position: 'fixed',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "20px 40px",
+    backgroundColor: "#F5F5F0",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    width: "100%",
+    position: "fixed",
     top: 0,
     left: 0,
     zIndex: 1000,
-    borderBottom: '2px solid #ddd',
+    borderBottom: "2px solid #ddd",
   },
   logo: {
-    fontSize: '2.5em',
-    fontWeight: 'bold',
-    color: '#003500',
+    fontSize: "2.5em",
+    fontWeight: "bold",
+    color: "#003500",
   },
   contactButton: {
-    backgroundColor: '#003500',
-    color: '#FFFFFF',
-    padding: '10px 20px',
-    border: 'none',
-    borderRadius: '25px',
-    fontSize: '1em',
-    cursor: 'pointer',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-    transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
+    backgroundColor: "#003500",
+    color: "#FFFFFF",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "25px",
+    fontSize: "1em",
+    cursor: "pointer",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    transition: "background-color 0.3s ease, box-shadow 0.3s ease",
   },
   mainContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '320%',
-    minHeight: '100vh',
-    padding: '20px',
-    textAlign: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    padding: "20px",
+    marginTop: "100px",
   },
   hero: {
-    width: '100%',
-    textAlign: 'center',
+    textAlign: "center",
+    marginBottom: "20px",
+  },
+  heroText: {
+    fontSize: "2em",
+    fontWeight: "bold",
+    color: "#003500",
   },
   container: {
-    marginTop: '20px',
-    maxWidth: '600px',
-    width: '100%',
-    textAlign: 'center',
-  },
-  title: {
-    fontSize: '2em',
-    marginBottom: '20px',
-    textAlign: 'center',
+    maxWidth: "600px",
+    width: "100%",
+    padding: "20px",
+    backgroundColor: "#fff",
+    borderRadius: "10px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '10px',
-    marginBottom: '20px',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "15px",
+    marginBottom: "20px",
   },
   input: {
-    padding: '10px',
-    width: '100%',
-    maxWidth: '300px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    margin: '10px 0',
+    width: "100%",
+    padding: "10px",
+    maxWidth: "300px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+    margin: "10px 0",
   },
   button: {
-    backgroundColor: '#5cb85c',
-    color: '#fff',
-    padding: '10px 15px',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    width: '100%',
-    maxWidth: '300px',
+    backgroundColor: "#5cb85c",
+    color: "#fff",
+    padding: "10px 15px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    width: "100%",
+    maxWidth: "300px",
+    transition: "background-color 0.3s ease",
   },
   tableSection: {
-    marginTop: '40px',
-    maxWidth: '600px',
-    width: '100%',
-    textAlign: 'center',
+    width: "100%",
+    maxWidth: "800px",
+    marginTop: "40px",
+  },
+  title: {
+    fontSize: "1.5em",
+    marginBottom: "20px",
+    textAlign: "center",
   },
   table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    marginTop: '20px',
+    width: "100%",
+    borderCollapse: "collapse",
   },
   th: {
-    backgroundColor: '#f5f5f5',
-    padding: '10px',
-    textAlign: 'left',
-    border: '1px solid #333', // Borde oscuro para el encabezado
+    backgroundColor: "#f5f5f5",
+    padding: "10px",
+    textAlign: "left",
+    borderBottom: "2px solid #ddd",
   },
   td: {
-    padding: '10px',
-    textAlign: 'left',
-    border: '1px solid #333', // Borde oscuro para las celdas
+    padding: "10px",
+    textAlign: "left",
+    borderBottom: "1px solid #ddd",
   },
   editButton: {
-    backgroundColor: '#1E90FF',
-    color: '#fff',
-    border: 'none',
-    padding: '5px 10px',
-    cursor: 'pointer',
-    marginRight: '10px',
+    backgroundColor: "#1E90FF",
+    color: "#fff",
+    border: "none",
+    padding: "5px 10px",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginRight: "5px",
   },
   deleteButton: {
-    backgroundColor: '#FF6347',
-    color: '#fff',
-    border: 'none',
-    padding: '5px 10px',
-    cursor: 'pointer',
+    backgroundColor: "#FF6347",
+    color: "#fff",
+    border: "none",
+    padding: "5px 10px",
+    borderRadius: "5px",
+    cursor: "pointer",
   },
 };
+
 
 export default Pension;

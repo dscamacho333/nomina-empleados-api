@@ -5,7 +5,7 @@ function Vacaciones() {
   const [novedades, setNovedades] = useState([]);
   const [vacacion, setVacacion] = useState({
     id: '',
-    novedad: '', // Cambiamos a 'novedad' para coincidir con el JSON esperado
+    novedad: '',
     numeroDias: '',
     fechaInicio: '',
     fechaTerminacion: '',
@@ -17,10 +17,13 @@ function Vacaciones() {
     fetchNovedades();
   }, []);
 
-  // Obtener todas las vacaciones
+  const getToken = () => localStorage.getItem("jwtToken");
+
   const fetchVacaciones = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/vacaciones/v1/listar');
+      const response = await fetch('http://localhost:8080/api/vacaciones/v1/listar', {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error('Error al obtener vacaciones');
       const data = await response.json();
       setVacaciones(data);
@@ -29,10 +32,11 @@ function Vacaciones() {
     }
   };
 
-  // Obtener todas las novedades
   const fetchNovedades = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/novedad/v1/listar');
+      const response = await fetch('http://localhost:8080/api/novedad/v1/listar', {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error('Error al obtener novedades');
       const data = await response.json();
       setNovedades(data);
@@ -41,13 +45,12 @@ function Vacaciones() {
     }
   };
 
-  // Guardar o actualizar una vacación
   const saveOrUpdateVacacion = async (e) => {
     e.preventDefault();
 
     const vacacionData = {
       ...vacacion,
-      novedad: { id: vacacion.novedad }, // Ajuste para usar 'novedad' en vez de 'novedadDTO'
+      novedad: { id: vacacion.novedad },
     };
 
     const url = editId
@@ -58,7 +61,10 @@ function Vacaciones() {
     try {
       const response = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getToken()}`,
+        },
         body: JSON.stringify(vacacionData),
       });
       if (!response.ok) throw new Error('Error al guardar o actualizar vacación');
@@ -76,11 +82,11 @@ function Vacaciones() {
     }
   };
 
-  // Eliminar una vacación
   const deleteVacacion = async (id) => {
     try {
       await fetch(`http://localhost:8080/api/vacaciones/v1/eliminar/${id}`, {
         method: 'DELETE',
+        headers: { Authorization: `Bearer ${getToken()}` },
       });
       fetchVacaciones();
     } catch (error) {
@@ -88,7 +94,6 @@ function Vacaciones() {
     }
   };
 
-  // Manejar la edición de una vacación
   const handleEdit = (vacacion) => {
     setVacacion({
       id: vacacion.id,
@@ -100,7 +105,6 @@ function Vacaciones() {
     setEditId(vacacion.id);
   };
 
-  // Manejar cambios en el formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setVacacion({ ...vacacion, [name]: value });
