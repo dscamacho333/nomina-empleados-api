@@ -55,7 +55,9 @@ public class PensionService implements IService<PensionDTO, Integer> {
         if (!pensionRepository.existsById(id)) {
             throw new EntityNotFoundException("EPS no encontrada para eliminar.");
         }
-        pensionRepository.deleteById(id);
+        var pensionDTO = read(id).get();
+        pensionDTO.setDeleted(true);
+        update(id, pensionDTO);
     }
 
     @Override

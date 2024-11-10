@@ -70,7 +70,9 @@ public class NovedadService implements IService<NovedadDTO, Integer> {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException("Novedad no encontrada para eliminar.");
         }
-        repository.deleteById(id);
+        var novedadDTO = read(id).get();
+        novedadDTO.setDeleted(true);
+        update(id, novedadDTO);
     }
 
     @Override

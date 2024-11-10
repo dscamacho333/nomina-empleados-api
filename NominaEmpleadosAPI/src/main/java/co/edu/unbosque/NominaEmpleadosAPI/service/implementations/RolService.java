@@ -51,8 +51,10 @@ public class RolService implements IService<RolDTO, Integer> {
 
     @Override
     public void delete(Integer id) {
-        read(id);
-        repository.deleteById(id);
+        var rolDTO = read(id).get();
+        rolDTO.setDeleted(true);
+        update(id, rolDTO);
+
     }
 
     @Override
