@@ -68,7 +68,9 @@ public class VacacionesService implements IService<VacacionesDTO, Integer> {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException("Vacaciones no encontradas para eliminar.");
         }
-        repository.deleteById(id);
+        var vacacionesDTO = read(id).get();
+        vacacionesDTO.setDeleted(true);
+        update(id, vacacionesDTO);
     }
 
     @Override

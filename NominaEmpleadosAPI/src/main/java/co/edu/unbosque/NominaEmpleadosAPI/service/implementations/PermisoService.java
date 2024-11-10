@@ -51,8 +51,9 @@ public class PermisoService implements IService<PermisoDTO, Integer> {
 
     @Override
     public void delete(Integer id) {
-        read(id);
-        repository.deleteById(id);
+        var permisoDTO = read(id).get();
+        permisoDTO.setDeleted(true);
+        update(id, permisoDTO);
     }
 
     @Override

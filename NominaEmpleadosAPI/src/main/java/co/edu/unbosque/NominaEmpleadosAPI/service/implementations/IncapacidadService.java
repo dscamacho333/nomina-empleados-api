@@ -69,7 +69,9 @@ public class IncapacidadService implements IService<IncapacidadDTO, Integer> {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException("Incapacidad no encontrada para eliminar.");
         }
-        repository.deleteById(id);
+        var incapacidadDTO = read(id).get();
+        incapacidadDTO.setDeleted(true);
+        update(id, incapacidadDTO);
     }
 
     @Override
