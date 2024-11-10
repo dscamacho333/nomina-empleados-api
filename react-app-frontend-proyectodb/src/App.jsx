@@ -11,14 +11,15 @@ import ARL from "./components/ARL";
 import Cargos from "./components/Cargos";
 import EPS from "./components/EPS";
 import Pension from "./components/Pension";
-import Login from "./components/Login"; // Importamos la página de login
+import Login from "./components/Login";
 import Empleado from "./components/Empleado";
-import Novedad from "./components/Novedad"; // Importamos la página de Novedad
-import Incapacidad from "./components/Incapacidad"; // Importamos la página de Incapacidad
-import Vacaciones from "./components/Vacaciones"; // Importamos la página de Vacaciones
+import Novedad from "./components/Novedad";
+import Incapacidad from "./components/Incapacidad";
+import Vacaciones from "./components/Vacaciones";
 import { Dashboard } from "./components/Dashboard";
 import { Dashboard2 } from "./components/Dashboard2";
 import { Dashboard3 } from "./components/Dashboard3";
+import Register from "./components/Register";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/" element={<Home />} />
           {/* Ruta para la página de inicio de sesión */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           {/* Ruta para los componentes individuales */}
           <Route path="/dependencias" element={<Dependencias />} />
           <Route path="/arl" element={<ARL />} />
