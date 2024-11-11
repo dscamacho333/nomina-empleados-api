@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function Incapacidad() {
   const [incapacidades, setIncapacidades] = useState([]);
-  const [novedades, setNovedades] = useState([]); // Listado de novedades para el select
+  const [novedades, setNovedades] = useState([]);
   const [incapacidad, setIncapacidad] = useState({
     id: '',
     novedadDTO: '',
@@ -17,10 +17,13 @@ function Incapacidad() {
     fetchNovedades();
   }, []);
 
-  // Obtener todas las incapacidades
+  const getToken = () => localStorage.getItem("jwtToken");
+
   const fetchIncapacidades = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/incapacidad/v1/listar');
+      const response = await fetch('http://localhost:8080/api/incapacidad/v1/listar', {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error('Error al obtener incapacidades');
       const data = await response.json();
       setIncapacidades(data);
@@ -29,10 +32,11 @@ function Incapacidad() {
     }
   };
 
-  // Obtener todas las novedades
   const fetchNovedades = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/novedad/v1/listar');
+      const response = await fetch('http://localhost:8080/api/novedad/v1/listar', {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error('Error al obtener novedades');
       const data = await response.json();
       setNovedades(data);
@@ -41,13 +45,12 @@ function Incapacidad() {
     }
   };
 
-  // Guardar o actualizar una incapacidad
   const saveOrUpdateIncapacidad = async (e) => {
     e.preventDefault();
 
     const incapacidadData = {
       ...incapacidad,
-      novedadDTO: { id: parseInt(incapacidad.novedadDTO) }, // Asegura que id sea un número
+      novedadDTO: { id: parseInt(incapacidad.novedadDTO) },
     };
 
     const url = editId
@@ -58,7 +61,10 @@ function Incapacidad() {
     try {
       const response = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getToken()}`,
+        },
         body: JSON.stringify(incapacidadData),
       });
       if (!response.ok) throw new Error('Error al guardar o actualizar incapacidad');
@@ -76,11 +82,11 @@ function Incapacidad() {
     }
   };
 
-  // Eliminar una incapacidad
   const deleteIncapacidad = async (id) => {
     try {
       await fetch(`http://localhost:8080/api/incapacidad/v1/eliminar/${id}`, {
         method: 'DELETE',
+        headers: { Authorization: `Bearer ${getToken()}` },
       });
       fetchIncapacidades();
     } catch (error) {
@@ -88,7 +94,6 @@ function Incapacidad() {
     }
   };
 
-  // Manejar la edición de una incapacidad
   const handleEdit = (incapacidad) => {
     setIncapacidad({
       id: incapacidad.id,
@@ -100,12 +105,11 @@ function Incapacidad() {
     setEditId(incapacidad.id);
   };
 
-  // Manejar cambios en el formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setIncapacidad({
       ...incapacidad,
-      [name]: name === "novedadDTO" ? parseInt(value) : value, // Convierte novedadDTO a número
+      [name]: name === "novedadDTO" ? parseInt(value) : value,
     });
   };
 

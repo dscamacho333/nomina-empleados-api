@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Home() {
-  const [hoveredLink, setHoveredLink] = useState(null); // Estado para el enlace que está en hover
-  const [showDropdownGestion, setShowDropdownGestion] = useState(false); // Estado para mostrar/ocultar el menú desplegable de "Gestión"
-  const [showDropdownReportes, setShowDropdownReportes] = useState(false); // Estado para mostrar/ocultar el menú desplegable de "Reportes"
+  const [hoveredLink, setHoveredLink] = useState(null);
+  const [showDropdownGestion, setShowDropdownGestion] = useState(false);
+  const [showDropdownReportes, setShowDropdownReportes] = useState(false);
 
   const styles = {
     header: {
@@ -28,7 +28,7 @@ function Home() {
     },
     buttonContainer: {
       display: "flex",
-      gap: "20px", // Espacio entre botones
+      gap: "20px",
     },
     contactButton: {
       backgroundColor: "#003500",
@@ -42,7 +42,7 @@ function Home() {
       transition: "background-color 0.3s ease, box-shadow 0.3s ease",
     },
     loginButton: {
-      backgroundColor: "#006400", // Un color diferente para el botón de LogIn
+      backgroundColor: "#006400",
       color: "#FFFFFF",
       padding: "10px 20px",
       border: "none",
@@ -50,7 +50,7 @@ function Home() {
       fontSize: "1em",
       cursor: "pointer",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-      textDecoration: "none", // Quitar subrayado del link
+      textDecoration: "none",
     },
     nav: {
       display: "flex",
@@ -109,17 +109,16 @@ function Home() {
 
   const toggleDropdownGestion = () => {
     setShowDropdownGestion(!showDropdownGestion);
-    setShowDropdownReportes(false); // Aseguramos que solo uno esté abierto a la vez
+    setShowDropdownReportes(false);
   };
 
   const toggleDropdownReportes = () => {
     setShowDropdownReportes(!showDropdownReportes);
-    setShowDropdownGestion(false); // Aseguramos que solo uno esté abierto a la vez
+    setShowDropdownGestion(false);
   };
 
   return (
     <>
-      {/* Encabezado con menús desplegables */}
       <div style={styles.header}>
         <div style={styles.logo}>
           <h1>UroCol</h1>
@@ -127,7 +126,6 @@ function Home() {
 
         <nav>
           <ul style={styles.nav}>
-            {/* Gestión con menú desplegable */}
             <li style={styles.navItem} onClick={toggleDropdownGestion}>
               Gestión
               <ul
@@ -135,15 +133,13 @@ function Home() {
                   showDropdownGestion ? styles.dropdown : styles.dropdownHidden
                 }
               >
+                {/* Gestión links */}
                 <li>
                   <Link
                     to="/dependencias"
                     style={
                       hoveredLink === "dependencias"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
                     onMouseEnter={() => handleMouseEnter("dependencias")}
@@ -157,10 +153,7 @@ function Home() {
                     to="/arl"
                     style={
                       hoveredLink === "arl"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
                     onMouseEnter={() => handleMouseEnter("arl")}
@@ -174,10 +167,7 @@ function Home() {
                     to="/cargos"
                     style={
                       hoveredLink === "cargos"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
                     onMouseEnter={() => handleMouseEnter("cargos")}
@@ -191,10 +181,7 @@ function Home() {
                     to="/eps"
                     style={
                       hoveredLink === "eps"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
                     onMouseEnter={() => handleMouseEnter("eps")}
@@ -208,10 +195,7 @@ function Home() {
                     to="/empleado"
                     style={
                       hoveredLink === "empleado"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
                     onMouseEnter={() => handleMouseEnter("empleado")}
@@ -225,10 +209,7 @@ function Home() {
                     to="/pension"
                     style={
                       hoveredLink === "pension"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
                     onMouseEnter={() => handleMouseEnter("pension")}
@@ -242,10 +223,7 @@ function Home() {
                     to="/novedad"
                     style={
                       hoveredLink === "novedad"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
                     onMouseEnter={() => handleMouseEnter("novedad")}
@@ -259,10 +237,7 @@ function Home() {
                     to="/incapacidad"
                     style={
                       hoveredLink === "incapacidad"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
                     onMouseEnter={() => handleMouseEnter("incapacidad")}
@@ -276,10 +251,7 @@ function Home() {
                     to="/vacaciones"
                     style={
                       hoveredLink === "vacaciones"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
                     onMouseEnter={() => handleMouseEnter("vacaciones")}
@@ -291,7 +263,6 @@ function Home() {
               </ul>
             </li>
 
-            {/* Reportes con menú desplegable */}
             <li style={styles.navItem} onClick={toggleDropdownReportes}>
               Reportes
               <ul
@@ -301,53 +272,58 @@ function Home() {
               >
                 <li>
                   <Link
-                    to="/reporte1"
+                    to="/reporteNomina"
                     style={
-                      hoveredLink === "reporte1"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                      hoveredLink === "reporteNomina"
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
-                    onMouseEnter={() => handleMouseEnter("reporte1")}
+                    onMouseEnter={() => handleMouseEnter("reporteNomina")}
                     onMouseLeave={handleMouseLeave}
                   >
-                    Reporte 1
+                    Reporte Nómina
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to="/reporte2"
+                    to="/reporteIndividual"
                     style={
-                      hoveredLink === "reporte2"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                      hoveredLink === "reporteIndividual"
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
-                    onMouseEnter={() => handleMouseEnter("reporte2")}
+                    onMouseEnter={() => handleMouseEnter("reporteIndividual")}
                     onMouseLeave={handleMouseLeave}
                   >
-                    Reporte 2
+                    Reporte Individual
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to="/reporte3"
+                    to="/reporteSaludPension"
                     style={
-                      hoveredLink === "reporte3"
-                        ? {
-                            ...styles.dropdownItem,
-                            ...styles.dropdownItemHover,
-                          }
+                      hoveredLink === "reporteSaludPension"
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
                         : styles.dropdownItem
                     }
-                    onMouseEnter={() => handleMouseEnter("reporte3")}
+                    onMouseEnter={() => handleMouseEnter("reporteSaludPension")}
                     onMouseLeave={handleMouseLeave}
                   >
-                    Reporte 3
+                    Reporte Salud y Pensión
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/reporteNovedad"
+                    style={
+                      hoveredLink === "reporteNovedad"
+                        ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                        : styles.dropdownItem
+                    }
+                    onMouseEnter={() => handleMouseEnter("reporteNovedad")}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    Novedad
                   </Link>
                 </li>
               </ul>
@@ -355,16 +331,14 @@ function Home() {
           </ul>
         </nav>
 
-        {/* Botones de Contáctanos y LogIn */}
         <div style={styles.buttonContainer}>
           <Link to="/login" style={styles.loginButton}>
-            LogIn
+            LogOut
           </Link>
           <button style={styles.contactButton}>Contáctanos</button>
         </div>
       </div>
 
-      {/* Contenido principal */}
       <div style={{ marginTop: "100px", padding: "20px", textAlign: "center" }}>
         <h2>Bienvenido a la página principal</h2>
         <p>Aquí va el contenido de la página...</p>

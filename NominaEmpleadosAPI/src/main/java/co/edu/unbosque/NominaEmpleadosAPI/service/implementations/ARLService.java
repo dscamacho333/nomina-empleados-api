@@ -55,7 +55,9 @@ public class ARLService implements IService<ARLDTO, Integer> {
         if (!arlRepository.existsById(id)) {
             throw new EntityNotFoundException("ARL no encontrada para eliminar.");
         }
-        arlRepository.deleteById(id);
+        var ARLDTO = read(id).get();
+        ARLDTO.setDeleted(true);
+        update(id, ARLDTO);
     }
 
     @Override

@@ -56,8 +56,9 @@ public class UsuarioService implements IService<UsuarioDTO, Integer> {
 
     @Override
     public void delete(Integer id) {
-        read(id);
-        repository.deleteById(id);
+        var usuarioDTO = read(id).get();
+        usuarioDTO.setDeleted(true);
+        update(id, usuarioDTO);
     }
 
     @Override

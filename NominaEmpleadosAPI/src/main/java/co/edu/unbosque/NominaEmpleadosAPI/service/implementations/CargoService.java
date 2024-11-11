@@ -55,8 +55,9 @@ public class CargoService implements IService<CargoDTO, Integer> {
 
     @Override
     public void delete(Integer id) {
-        read(id);
-        repository.deleteById(id);
+        var cargoDTO =  read(id).get();
+        cargoDTO.setDeleted(true);
+        update(id, cargoDTO);
     }
 
     @Override

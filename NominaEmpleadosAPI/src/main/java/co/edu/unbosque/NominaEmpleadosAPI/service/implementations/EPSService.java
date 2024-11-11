@@ -56,7 +56,9 @@ public class EPSService implements IService<EPSDTO, Integer> {
         if (!epsRepository.existsById(id)) {
             throw new EntityNotFoundException("EPS no encontrada para eliminar.");
         }
-        epsRepository.deleteById(id);
+        var EPSDTO = read(id).get();
+        EPSDTO.setDeleted(true);
+        update(id, EPSDTO);
     }
 
     @Override

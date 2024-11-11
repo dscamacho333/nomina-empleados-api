@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -16,39 +16,63 @@ import Empleado from "./components/Empleado";
 import Novedad from "./components/Novedad";
 import Incapacidad from "./components/Incapacidad";
 import Vacaciones from "./components/Vacaciones";
-import { Dashboard } from "./components/Dashboard";
-import { Dashboard2 } from "./components/Dashboard2";
-import { Dashboard3 } from "./components/Dashboard3";
+import Dashboard from "./components/Dashboard";
+import Dashboard2 from "./components/Dashboard2";
+import Dashboard3 from "./components/Dashboard3";
 import Register from "./components/Register";
 
+// Importar componentes de los reportes
+import ReporteNomina from "./components/ReporteNomina";
+import ReporteIndividual from "./components/ReporteIndividual";
+import ReporteSaludPension from "./components/ReporteSalud";
+import ReporteNovedad from "./components/ReporteNovedad";
+import FormularioReportes from "./components/FormularioReportes";
+import FormularioReportes3 from "./components/FormularioReportes3";
+
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
   return (
     <Router>
       <main>
         <Routes>
-          {/* Ruta para la página principal */}
-          <Route path="/" element={<Home />} />
+          {/* Redirigir a Home tras autenticación */}
+          <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" replace />} />
+
           {/* Ruta para la página de inicio de sesión */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/register" element={<Register />} />
-          {/* Ruta para los componentes individuales */}
-          <Route path="/dependencias" element={<Dependencias />} />
-          <Route path="/arl" element={<ARL />} />
-          <Route path="/cargos" element={<Cargos />} />
-          <Route path="/eps" element={<EPS />} />
-          <Route path="/pension" element={<Pension />} />
-          <Route path="/empleado" element={<Empleado />} />
-          <Route path="/novedad" element={<Novedad />} />{" "}
-          {/* Nueva ruta para Novedad */}
-          <Route path="/incapacidad" element={<Incapacidad />} />{" "}
-          {/* Nueva ruta para Incapacidad */}
-          <Route path="/vacaciones" element={<Vacaciones />} />{" "}
-          {/* Nueva ruta para Vacaciones */}
-          <Route path="/reporte1" element={<Dashboard />} />
-          <Route path="/reporte2" element={<Dashboard2 />} />
-          <Route path="/reporte3" element={<Dashboard3 />} />
-          {/* Redireccionar cualquier ruta desconocida a la página principal */}
-          <Route path="*" element={<Navigate to="/" />} />
+
+          {/* Rutas para la Gestión protegidas */}
+          <Route path="/dependencias" element={isAuthenticated ? <Dependencias /> : <Navigate to="/login" replace />} />
+          <Route path="/arl" element={isAuthenticated ? <ARL /> : <Navigate to="/login" replace />} />
+          <Route path="/cargos" element={isAuthenticated ? <Cargos /> : <Navigate to="/login" replace />} />
+          <Route path="/eps" element={isAuthenticated ? <EPS /> : <Navigate to="/login" replace />} />
+          <Route path="/pension" element={isAuthenticated ? <Pension /> : <Navigate to="/login" replace />} />
+          <Route path="/empleado" element={isAuthenticated ? <Empleado /> : <Navigate to="/login" replace />} />
+          <Route path="/novedad" element={isAuthenticated ? <Novedad /> : <Navigate to="/login" replace />} />
+          <Route path="/incapacidad" element={isAuthenticated ? <Incapacidad /> : <Navigate to="/login" replace />} />
+          <Route path="/vacaciones" element={isAuthenticated ? <Vacaciones /> : <Navigate to="/login" replace />} />
+
+          {/* Rutas para los reportes protegidas */}
+          <Route path="/reporteNomina" element={isAuthenticated ? <ReporteNomina /> : <Navigate to="/login" replace />} />
+          <Route path="/reporteIndividual" element={isAuthenticated ? <ReporteIndividual /> : <Navigate to="/login" replace />} />
+          <Route path="/reporteSaludPension" element={isAuthenticated ? <ReporteSaludPension /> : <Navigate to="/login" replace />} />
+          <Route path="/reporteNovedad" element={isAuthenticated ? <ReporteNovedad /> : <Navigate to="/login" replace />} />
+
+          {/* Nuevas rutas para Dashboard2, Dashboard3 y Formularios de reportes */}
+          <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />} />
+          <Route path="/dashboard2" element={isAuthenticated ? <Dashboard2 /> : <Navigate to="/login" replace />} />
+          <Route path="/dashboard3" element={isAuthenticated ? <Dashboard3 /> : <Navigate to="/login" replace />} />
+          <Route path="/formularioReportes" element={isAuthenticated ? <FormularioReportes /> : <Navigate to="/login" replace />} />
+          <Route path="/formularioReportes3" element={isAuthenticated ? <FormularioReportes3 /> : <Navigate to="/login" replace />} />
+
+          {/* Ruta para redirigir todas las rutas no definidas a Home si está autenticado o a login */}
+          <Route path="*" element={<Navigate to={isAuthenticated ? "/" : "/login"} replace />} />
         </Routes>
       </main>
     </Router>

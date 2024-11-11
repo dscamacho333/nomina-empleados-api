@@ -59,8 +59,9 @@ public class RolUsuarioService implements IService<RolUsuarioDTO, Integer> {
 
     @Override
     public void delete(Integer id) {
-        read(id);
-        repository.deleteById(id);
+        var rolUsuarioDTO = read(id).get();
+        rolUsuarioDTO.setDeleted(true);
+        update(id, rolUsuarioDTO);
     }
 
     @Override
