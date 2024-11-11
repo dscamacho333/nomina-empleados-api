@@ -79,11 +79,19 @@ function Register() {
       return;
     }
 
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      alert("Error de autenticación. Por favor inicia sesión.");
+      navigate("/login");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:8080/api/usuario/v1/crear", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           usuario: username,
@@ -93,7 +101,7 @@ function Register() {
 
       if (response.ok) {
         alert("Usuario registrado con éxito.");
-        navigate("/login"); // Redirigir a login después del registro
+        navigate("/login"); // Redirige a login después del registro
       } else if (response.status === 403) {
         alert("No tienes permisos para crear un nuevo usuario.");
       } else {

@@ -16,10 +16,18 @@ import Empleado from "./components/Empleado";
 import Novedad from "./components/Novedad";
 import Incapacidad from "./components/Incapacidad";
 import Vacaciones from "./components/Vacaciones";
-import { Dashboard } from "./components/Dashboard";
-import { Dashboard2 } from "./components/Dashboard2";
-import { Dashboard3 } from "./components/Dashboard3";
+import Dashboard from "./components/Dashboard";
+import Dashboard2 from "./components/Dashboard2";
+import Dashboard3 from "./components/Dashboard3";
 import Register from "./components/Register";
+
+// Importar componentes de los reportes
+import ReporteNomina from "./components/ReporteNomina";
+import ReporteIndividual from "./components/ReporteIndividual";
+import ReporteSaludPension from "./components/ReporteSalud";
+import ReporteNovedad from "./components/ReporteNovedad";
+import FormularioReportes from "./components/FormularioReportes";
+import FormularioReportes3 from "./components/FormularioReportes3";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,14 +40,14 @@ function App() {
     <Router>
       <main>
         <Routes>
-          {/* Ruta para la página principal, protegida */}
+          {/* Redirigir a Home tras autenticación */}
           <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" replace />} />
-          
+
           {/* Ruta para la página de inicio de sesión */}
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Rutas para los componentes individuales protegidas */}
+          {/* Rutas para la Gestión protegidas */}
           <Route path="/dependencias" element={isAuthenticated ? <Dependencias /> : <Navigate to="/login" replace />} />
           <Route path="/arl" element={isAuthenticated ? <ARL /> : <Navigate to="/login" replace />} />
           <Route path="/cargos" element={isAuthenticated ? <Cargos /> : <Navigate to="/login" replace />} />
@@ -49,12 +57,22 @@ function App() {
           <Route path="/novedad" element={isAuthenticated ? <Novedad /> : <Navigate to="/login" replace />} />
           <Route path="/incapacidad" element={isAuthenticated ? <Incapacidad /> : <Navigate to="/login" replace />} />
           <Route path="/vacaciones" element={isAuthenticated ? <Vacaciones /> : <Navigate to="/login" replace />} />
-          <Route path="/reporte1" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />} />
-          <Route path="/reporte2" element={isAuthenticated ? <Dashboard2 /> : <Navigate to="/login" replace />} />
-          <Route path="/reporte3" element={isAuthenticated ? <Dashboard3 /> : <Navigate to="/login" replace />} />
 
-          {/* Ruta para redirigir todas las rutas no definidas al login */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          {/* Rutas para los reportes protegidas */}
+          <Route path="/reporteNomina" element={isAuthenticated ? <ReporteNomina /> : <Navigate to="/login" replace />} />
+          <Route path="/reporteIndividual" element={isAuthenticated ? <ReporteIndividual /> : <Navigate to="/login" replace />} />
+          <Route path="/reporteSaludPension" element={isAuthenticated ? <ReporteSaludPension /> : <Navigate to="/login" replace />} />
+          <Route path="/reporteNovedad" element={isAuthenticated ? <ReporteNovedad /> : <Navigate to="/login" replace />} />
+
+          {/* Nuevas rutas para Dashboard2, Dashboard3 y Formularios de reportes */}
+          <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />} />
+          <Route path="/dashboard2" element={isAuthenticated ? <Dashboard2 /> : <Navigate to="/login" replace />} />
+          <Route path="/dashboard3" element={isAuthenticated ? <Dashboard3 /> : <Navigate to="/login" replace />} />
+          <Route path="/formularioReportes" element={isAuthenticated ? <FormularioReportes /> : <Navigate to="/login" replace />} />
+          <Route path="/formularioReportes3" element={isAuthenticated ? <FormularioReportes3 /> : <Navigate to="/login" replace />} />
+
+          {/* Ruta para redirigir todas las rutas no definidas a Home si está autenticado o a login */}
+          <Route path="*" element={<Navigate to={isAuthenticated ? "/" : "/login"} replace />} />
         </Routes>
       </main>
     </Router>
