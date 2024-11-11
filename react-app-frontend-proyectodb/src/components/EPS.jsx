@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import NavBar from './NavBar'; // Importa NavBar
 
 function EPS() {
   const [eps, setEps] = useState([]);
@@ -42,20 +43,12 @@ function EPS() {
 
       if (editId) {
         updateEps(editId, epsItem)
-          .then(() => {
-            fetchEps();
-          })
-          .catch((error) => {
-            console.error('Error al actualizar EPS:', error);
-          });
+          .then(() => fetchEps())
+          .catch((error) => console.error('Error al actualizar EPS:', error));
       } else {
         createEps(epsItem)
-          .then(() => {
-            fetchEps();
-          })
-          .catch((error) => {
-            console.error('Error al crear EPS:', error);
-          });
+          .then(() => fetchEps())
+          .catch((error) => console.error('Error al crear EPS:', error));
       }
     }
   };
@@ -107,15 +100,8 @@ function EPS() {
 
   return (
     <>
-      {/* Encabezado */}
-      <header style={styles.header}>
-        <div style={styles.logo}>
-          <h1>UroCol - EPS</h1>
-        </div>
-        <button style={styles.contactButton}>Contáctanos</button>
-      </header>
+      <NavBar /> {/* Usa el componente NavBar */}
 
-      {/* Contenido principal */}
       <main style={styles.mainContent}>
         <section style={styles.hero}>
           <div style={styles.heroText}>
@@ -123,7 +109,6 @@ function EPS() {
           </div>
         </section>
 
-        {/* Formulario para crear o actualizar EPS */}
         <section style={styles.container}>
           <form style={styles.form}>
             <input
@@ -139,7 +124,6 @@ function EPS() {
           </form>
         </section>
 
-        {/* Tabla de EPS */}
         <section style={styles.tableSection}>
           <h2 style={styles.title}>Listado de EPS</h2>
           <table style={styles.table}>
@@ -175,36 +159,6 @@ function EPS() {
 }
 
 const styles = {
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "20px 40px",
-    backgroundColor: "#F5F5F0",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    width: "100%",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    zIndex: 1000,
-    borderBottom: "2px solid #ddd",
-  },
-  logo: {
-    fontSize: "2.5em",
-    fontWeight: "bold",
-    color: "#003500",
-  },
-  contactButton: {
-    backgroundColor: "#003500",
-    color: "#FFFFFF",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "25px",
-    fontSize: "1em",
-    cursor: "pointer",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    transition: "background-color 0.3s ease, box-shadow 0.3s ease",
-  },
   mainContent: {
     display: "flex",
     flexDirection: "column",
@@ -301,6 +255,5 @@ const styles = {
     cursor: "pointer",
   },
 };
-
 
 export default EPS;

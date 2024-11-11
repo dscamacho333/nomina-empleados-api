@@ -163,7 +163,7 @@ function Login({ onLogin }) {
       <style>{styles.animationKeyframes}</style>
       <div style={styles.header}>
         <div style={styles.logo}>
-          <h1>UroCol</h1>
+          <h1>UruCol-242</h1>
         </div>
         <button style={styles.contactButton}>Contáctanos</button>
       </div>

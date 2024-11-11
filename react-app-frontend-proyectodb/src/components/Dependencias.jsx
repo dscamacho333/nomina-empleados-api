@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import NavBar from './NavBar'; // Importa NavBar
 
 function Dependencias() {
   const [dependencias, setDependencias] = useState([]);
@@ -18,7 +19,7 @@ function Dependencias() {
   };
 
   const fetchDependencias = async () => {
-    const token = localStorage.getItem("jwtToken"); // Recupera el token almacenado
+    const token = localStorage.getItem("jwtToken");
 
     try {
       const response = await fetch('http://localhost:8080/api/dependencia/v1/listar', {
@@ -42,20 +43,12 @@ function Dependencias() {
 
       if (editId) {
         updateDependencia(editId, dependencia)
-          .then((response) => {
-            fetchDependencias();
-          })
-          .catch((error) => {
-            console.error('Error al actualizar dependencia:', error);
-          });
+          .then(() => fetchDependencias())
+          .catch((error) => console.error('Error al actualizar dependencia:', error));
       } else {
         createDependencia(dependencia)
-          .then((response) => {
-            fetchDependencias();
-          })
-          .catch((error) => {
-            console.error('Error al crear dependencia:', error);
-          });
+          .then(() => fetchDependencias())
+          .catch((error) => console.error('Error al crear dependencia:', error));
       }
     }
   };
@@ -92,9 +85,7 @@ function Dependencias() {
     try {
       await fetch(`http://localhost:8080/api/dependencia/v1/eliminar/${id}`, {
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       fetchDependencias();
     } catch (error) {
@@ -109,24 +100,15 @@ function Dependencias() {
 
   return (
     <>
-      {/* Encabezado */}
-      <header style={styles.header}>
-        <div style={styles.logo}>
-          <h1>UroCol - Dependencias</h1>
-        </div>
-        <button style={styles.contactButton}>Contáctanos</button>
-      </header>
+      <NavBar /> {/* Usa el componente NavBar */}
 
-      {/* Contenido principal */}
       <main style={styles.mainContent}>
         <section style={styles.hero}>
           <div style={styles.heroText}>
             <h2>GESTIÓN DE DEPENDENCIAS</h2>
-            
           </div>
         </section>
 
-        {/* Formulario para crear o actualizar dependencias */}
         <section style={styles.container}>
           <form style={styles.form}>
             <input
@@ -142,7 +124,6 @@ function Dependencias() {
           </form>
         </section>
 
-        {/* Tabla de dependencias (separada del formulario) */}
         <section style={styles.tableSection}>
           <h2 style={styles.title}>Listado de Dependencias</h2>
           <table style={styles.table}>
@@ -182,37 +163,8 @@ function Dependencias() {
     </>
   );
 }
+
 const styles = {
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "20px 40px",
-    backgroundColor: "#F5F5F0",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    width: "100%",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    zIndex: 1000,
-    borderBottom: "2px solid #ddd",
-  },
-  logo: {
-    fontSize: "2.5em",
-    fontWeight: "bold",
-    color: "#003500",
-  },
-  contactButton: {
-    backgroundColor: "#003500",
-    color: "#FFFFFF",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "25px",
-    fontSize: "1em",
-    cursor: "pointer",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    transition: "background-color 0.3s ease, box-shadow 0.3s ease",
-  },
   mainContent: {
     display: "flex",
     flexDirection: "column",
@@ -309,6 +261,5 @@ const styles = {
     cursor: "pointer",
   },
 };
-
 
 export default Dependencias;

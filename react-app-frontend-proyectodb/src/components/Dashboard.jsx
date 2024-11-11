@@ -6,6 +6,7 @@ import { Barchart } from "./Barchart";
 import { Piechart } from "./Piechart";
 import { DashboardPDF } from "./DashboardPDF";
 import { getEmpleadosPorDependencia, getEmpleadosPorCargo } from "./EmpleadoChart";
+import NavBarReporteNomina from "./NavBarReporteNomina"; // Importa NavBarReporteNomina
 
 const Dashboard = () => {
   const [dependenciaData, setDependenciaData] = useState([]);
@@ -72,17 +73,12 @@ const Dashboard = () => {
 
   return (
     <>
-      {/* Encabezado */}
-      <header style={styles.header}>
-        <div style={styles.logo}>
-          <h1>UroCol - Graficos de Empleados</h1>
-        </div>
-        <button style={styles.contactButton}>Contáctanos</button>
-      </header>
+      {/* Utiliza NavBarReporteNomina */}
+      <NavBarReporteNomina />
 
       <div style={{ padding: "20px", maxWidth: "1400px", margin: "auto", marginTop: "100px" }}>
         <Typography variant="h4" gutterBottom align="center">
-          Graficos de Empleados
+          Gráficos de Empleados
         </Typography>
 
         <div style={{ display: "block", textAlign: "center", marginBottom: "20px" }}>
@@ -161,39 +157,6 @@ const Dashboard = () => {
       </div>
     </>
   );
-};
-
-const styles = {
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "20px 40px",
-    backgroundColor: "#F5F5F0",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    width: "100%",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    zIndex: 1000,
-    borderBottom: "2px solid #ddd",
-  },
-  logo: {
-    fontSize: "2.5em",
-    fontWeight: "bold",
-    color: "#003500",
-  },
-  contactButton: {
-    backgroundColor: "#003500",
-    color: "#FFFFFF",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "25px",
-    fontSize: "1em",
-    cursor: "pointer",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    transition: "background-color 0.3s ease, box-shadow 0.3s ease",
-  },
 };
 
 export default Dashboard;
