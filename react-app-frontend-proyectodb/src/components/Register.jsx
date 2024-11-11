@@ -22,6 +22,7 @@ function Register() {
       left: 0,
       zIndex: 1000,
       borderBottom: "2px solid #ddd",
+      cursor: "pointer", // Añadimos cursor para indicar que es un enlace
     },
     logo: {
       fontSize: "2.5em",
@@ -71,6 +72,10 @@ function Register() {
     },
   };
 
+  const handleLogoClick = () => {
+    navigate("/login");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -115,8 +120,8 @@ function Register() {
 
   return (
     <div style={styles.content}>
-      <header style={styles.header}>
-        <div style={styles.logo}>UroCol - Registro</div>
+      <header style={styles.header} onClick={handleLogoClick}>
+        <div style={styles.logo}>UruCol-242</div>
       </header>
       <div style={styles.registerContainer}>
         <h2>Regístrate</h2>

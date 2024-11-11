@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import ConsultasPDF5 from "./ConsultasPDF5";
 import ConsultasPDF6 from "./ConsultasPDF6";
+import NavBar from './NavBar'; // Importa NavBar
 
 const ReporteNovedad = () => {
   const [endpointSeleccionado, setEndpointSeleccionado] = useState("");
@@ -104,13 +105,7 @@ const ReporteNovedad = () => {
 
   return (
     <>
-      {/* Encabezado con estilos ARL */}
-      <header style={styles.header}>
-        <div style={styles.logo}>
-          <h1>UroCol - Reporte de Novedades</h1>
-        </div>
-        <button style={styles.contactButton}>Contáctanos</button>
-      </header>
+      <NavBar /> {/* Usa el componente NavBar */}
 
       <div style={styles.container}>
         <h2>Generar Reporte de Novedades</h2>

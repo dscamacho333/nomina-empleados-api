@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import ConsultasPDF from "./ConsultasPDF";
 import ConsultasPDF2 from "./ConsultasPDF2";
+import NavBarReporteNomina from "./NavBarReporteNomina"; // Importa NavBarReporteNomina
 
 const FormularioReportes = () => {
   const [endpointSeleccionado, setEndpointSeleccionado] = useState("");
@@ -70,12 +71,8 @@ const FormularioReportes = () => {
 
   return (
     <div>
-      <header style={styles.header}>
-        <div style={styles.logo}>
-          <h1>UroCol - Reportes de Nómina</h1>
-        </div>
-        <button style={styles.contactButton}>Contáctanos</button>
-      </header>
+      {/* Utiliza el componente NavBarReporteNomina */}
+      <NavBarReporteNomina />
 
       <main style={styles.mainContent}>
         <h1>Generar Reporte de Nómina</h1>

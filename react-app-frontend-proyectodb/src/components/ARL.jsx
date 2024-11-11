@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import NavBar from './NavBar'; // Importa NavBar
 
 function ARL() {
-  const [arls, setArls] = useState([]); // Almacena la lista de ARLs
-  const [nombre, setNombre] = useState(''); // Almacena el nombre de la ARL
-  const [editId, setEditId] = useState(null); // Almacena el ID de la ARL que se está editando
+  const [arls, setArls] = useState([]);
+  const [nombre, setNombre] = useState('');
+  const [editId, setEditId] = useState(null);
 
-  // Fetch ARLs cuando el componente se monta
   useEffect(() => {
     fetchArls();
   }, []);
 
-  // Validar el formulario antes de guardar
   const validateForm = () => {
     if (!nombre) {
       alert('Por favor ingresa un nombre para la ARL');
@@ -19,9 +18,8 @@ function ARL() {
     return true;
   };
 
-  // Obtener todas las ARLs
   const fetchArls = async () => {
-    const token = localStorage.getItem("jwtToken"); // Recupera el token almacenado
+    const token = localStorage.getItem("jwtToken");
 
     try {
       const response = await fetch('http://localhost:8080/api/arl/v1/listar', {
@@ -37,34 +35,24 @@ function ARL() {
     }
   };
 
-  // Crear o actualizar una ARL
   const saveOrUpdateArl = (e) => {
     e.preventDefault();
 
     if (validateForm()) {
-      const arlItem = { nombreARL: nombre }; // El DTO espera 'nombreARL'
+      const arlItem = { nombreARL: nombre };
 
       if (editId) {
         updateArl(editId, arlItem)
-          .then(() => {
-            fetchArls(); // Recargar la lista después de actualizar
-          })
-          .catch((error) => {
-            console.error('Error al actualizar ARL:', error);
-          });
+          .then(() => fetchArls())
+          .catch((error) => console.error('Error al actualizar ARL:', error));
       } else {
         createArl(arlItem)
-          .then(() => {
-            fetchArls(); // Recargar la lista después de crear
-          })
-          .catch((error) => {
-            console.error('Error al crear ARL:', error);
-          });
+          .then(() => fetchArls())
+          .catch((error) => console.error('Error al crear ARL:', error));
       }
     }
   };
 
-  // Crear una ARL
   const createArl = async (arlItem) => {
     const token = localStorage.getItem("jwtToken");
 
@@ -78,7 +66,6 @@ function ARL() {
     });
   };
 
-  // Actualizar una ARL
   const updateArl = async (id, arlItem) => {
     const token = localStorage.getItem("jwtToken");
 
@@ -92,7 +79,6 @@ function ARL() {
     });
   };
 
-  // Eliminar una ARL
   const deleteArl = async (id) => {
     const token = localStorage.getItem("jwtToken");
 
@@ -101,13 +87,12 @@ function ARL() {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchArls(); // Recargar la lista después de eliminar
+      fetchArls();
     } catch (error) {
       console.error('Error al eliminar ARL:', error);
     }
   };
 
-  // Manejar la edición de una ARL
   const handleEdit = (arlItem) => {
     setNombre(arlItem.nombreARL);
     setEditId(arlItem.id);
@@ -115,15 +100,8 @@ function ARL() {
 
   return (
     <>
-      {/* Encabezado */}
-      <header style={styles.header}>
-        <div style={styles.logo}>
-          <h1>UroCol - ARL</h1>
-        </div>
-        <button style={styles.contactButton}>Contáctanos</button>
-      </header>
+      <NavBar /> {/* Usa el componente NavBar */}
 
-      {/* Contenido principal */}
       <main style={styles.mainContent}>
         <section style={styles.hero}>
           <div style={styles.heroText}>
@@ -131,7 +109,6 @@ function ARL() {
           </div>
         </section>
 
-        {/* Formulario para crear o actualizar ARLs */}
         <section style={styles.container}>
           <form style={styles.form}>
             <input
@@ -147,7 +124,6 @@ function ARL() {
           </form>
         </section>
 
-        {/* Tabla de ARLs */}
         <section style={styles.tableSection}>
           <h2 style={styles.title}>Listado de ARL</h2>
           <table style={styles.table}>
@@ -189,36 +165,6 @@ function ARL() {
 }
 
 const styles = {
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "20px 40px",
-    backgroundColor: "#F5F5F0",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    width: "100%",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    zIndex: 1000,
-    borderBottom: "2px solid #ddd",
-  },
-  logo: {
-    fontSize: "2.5em",
-    fontWeight: "bold",
-    color: "#003500",
-  },
-  contactButton: {
-    backgroundColor: "#003500",
-    color: "#FFFFFF",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "25px",
-    fontSize: "1em",
-    cursor: "pointer",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    transition: "background-color 0.3s ease, box-shadow 0.3s ease",
-  },
   mainContent: {
     display: "flex",
     flexDirection: "column",

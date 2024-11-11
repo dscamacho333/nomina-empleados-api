@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import NavBar from './NavBar'; // Importa NavBar
 
 function Cargos() {
-  const [cargos, setCargos] = useState([]); // Almacena la lista de cargos
-  const [nombre, setNombre] = useState(''); // Almacena el nombre del cargo
-  const [editId, setEditId] = useState(null); // Almacena el ID del cargo que se está editando
+  const [cargos, setCargos] = useState([]);
+  const [nombre, setNombre] = useState('');
+  const [editId, setEditId] = useState(null);
 
-  // Fetch de Cargos cuando el componente se monta
   useEffect(() => {
     fetchCargos();
   }, []);
 
-  // Validar el formulario antes de guardar
   const validateForm = () => {
     if (!nombre) {
       alert('Por favor ingresa un nombre para el cargo');
@@ -19,9 +18,8 @@ function Cargos() {
     return true;
   };
 
-  // Obtener todos los Cargos
   const fetchCargos = async () => {
-    const token = localStorage.getItem("jwtToken"); // Obtener el token JWT desde localStorage
+    const token = localStorage.getItem("jwtToken");
 
     try {
       const response = await fetch('http://localhost:8080/api/cargo/v1/listar', {
@@ -37,7 +35,6 @@ function Cargos() {
     }
   };
 
-  // Crear o actualizar un Cargo
   const saveOrUpdateCargos = (e) => {
     e.preventDefault();
 
@@ -46,25 +43,16 @@ function Cargos() {
 
       if (editId) {
         updateCargo(editId, cargoItem)
-          .then(() => {
-            fetchCargos(); // Recargar la lista después de actualizar
-          })
-          .catch((error) => {
-            console.error('Error al actualizar cargo:', error);
-          });
+          .then(() => fetchCargos())
+          .catch((error) => console.error('Error al actualizar cargo:', error));
       } else {
         createCargo(cargoItem)
-          .then(() => {
-            fetchCargos(); // Recargar la lista después de crear
-          })
-          .catch((error) => {
-            console.error('Error al crear cargo:', error);
-          });
+          .then(() => fetchCargos())
+          .catch((error) => console.error('Error al crear cargo:', error));
       }
     }
   };
 
-  // Crear un Cargo
   const createCargo = async (cargoItem) => {
     const token = localStorage.getItem("jwtToken");
 
@@ -78,7 +66,6 @@ function Cargos() {
     });
   };
 
-  // Actualizar un Cargo
   const updateCargo = async (id, cargoItem) => {
     const token = localStorage.getItem("jwtToken");
 
@@ -92,7 +79,6 @@ function Cargos() {
     });
   };
 
-  // Eliminar un Cargo
   const deleteCargo = async (id) => {
     const token = localStorage.getItem("jwtToken");
 
@@ -101,13 +87,12 @@ function Cargos() {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchCargos(); // Recargar la lista después de eliminar
+      fetchCargos();
     } catch (error) {
       console.error('Error al eliminar cargo:', error);
     }
   };
 
-  // Manejar la edición de un Cargo
   const handleEdit = (cargoItem) => {
     setNombre(cargoItem.nombreCargo);
     setEditId(cargoItem.id);
@@ -115,15 +100,8 @@ function Cargos() {
 
   return (
     <>
-      {/* Encabezado */}
-      <header style={styles.header}>
-        <div style={styles.logo}>
-          <h1>UroCol - Cargos</h1>
-        </div>
-        <button style={styles.contactButton}>Contáctanos</button>
-      </header>
+      <NavBar /> {/* Usa el componente NavBar */}
 
-      {/* Contenido principal */}
       <main style={styles.mainContent}>
         <section style={styles.hero}>
           <div style={styles.heroText}>
@@ -131,7 +109,6 @@ function Cargos() {
           </div>
         </section>
 
-        {/* Formulario para crear o actualizar Cargos */}
         <section style={styles.container}>
           <form style={styles.form}>
             <input
@@ -147,7 +124,6 @@ function Cargos() {
           </form>
         </section>
 
-        {/* Tabla de Cargos */}
         <section style={styles.tableSection}>
           <h2 style={styles.title}>Listado de Cargos</h2>
           <table style={styles.table}>
@@ -189,36 +165,6 @@ function Cargos() {
 }
 
 const styles = {
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "20px 40px",
-    backgroundColor: "#F5F5F0",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    width: "100%",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    zIndex: 1000,
-    borderBottom: "2px solid #ddd",
-  },
-  logo: {
-    fontSize: "2.5em",
-    fontWeight: "bold",
-    color: "#003500",
-  },
-  contactButton: {
-    backgroundColor: "#003500",
-    color: "#FFFFFF",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "25px",
-    fontSize: "1em",
-    cursor: "pointer",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    transition: "background-color 0.3s ease, box-shadow 0.3s ease",
-  },
   mainContent: {
     display: "flex",
     flexDirection: "column",
@@ -315,6 +261,5 @@ const styles = {
     cursor: "pointer",
   },
 };
-
 
 export default Cargos;

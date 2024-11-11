@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import NavBar from './NavBar'; // Importa NavBar
 
 function Vacaciones() {
   const [vacaciones, setVacaciones] = useState([]);
@@ -112,12 +113,7 @@ function Vacaciones() {
 
   return (
     <>
-      <header style={styles.header}>
-        <div style={styles.logo}>
-          <h1>UroCol - Vacaciones</h1>
-        </div>
-        <button style={styles.contactButton}>Contáctanos</button>
-      </header>
+      <NavBar /> {/* Usa el componente NavBar */}
 
       <div style={styles.mainWrapper}>
         <main style={styles.mainContent}>
