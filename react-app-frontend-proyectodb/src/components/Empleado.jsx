@@ -24,12 +24,6 @@ function Empleado() {
   const [editId, setEditId] = useState(null);
 
   useEffect(() => {
-    getEmpleadosPorCargo();
-    getEmpleadosPorDependencia();
-    getEmpleadosPorEPS();
-    getEmpleadosPorPension();
-    getEmpleadosPorEPSyDependencia();
-    getEmpleadosPorPensionYDependencia();
     fetchEmpleados();
     fetchDependencias();
     fetchCargos();
@@ -38,11 +32,13 @@ function Empleado() {
     fetchPensiones();
   }, []);
 
+  const getToken = () => localStorage.getItem("jwtToken");
+
   const fetchEmpleados = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8080/api/empleado/v1/listar"
-      );
+      const response = await fetch("http://localhost:8080/api/empleado/v1/listar", {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error("Error al obtener empleados");
       const data = await response.json();
       setEmpleados(data);
@@ -51,71 +47,11 @@ function Empleado() {
     }
   };
 
-  const getEmpleadosPorDependencia = async () => {
-    const response = await fetch(
-      "http://localhost:8080/api/consultas/v1/empleados-por-dependencia"
-    );
-    if (!response.ok) {
-      throw new Error("Error al obtener empleados por dependencia");
-    }
-    return await response.json();
-  };
-
-  const getEmpleadosPorCargo = async () => {
-    const response = await fetch(
-      "http://localhost:8080/api/consultas/v1/empleados-por-cargo"
-    );
-    if (!response.ok) {
-      throw new Error("Error al obtener empleados por cargo");
-    }
-    return await response.json();
-  };
-
-  const getEmpleadosPorEPS = async () => {
-    const response = await fetch(
-      "http://localhost:8080/api/consultas/v1/empleados-por-eps"
-    );
-    if (!response.ok) {
-      throw new Error("Error al obtener empleados por EPS");
-    }
-    return await response.json();
-  };
-
-  const getEmpleadosPorPension = async () => {
-    const response = await fetch(
-      "http://localhost:8080/api/consultas/v1/empleados-por-pension"
-    );
-    if (!response.ok) {
-      throw new Error("Error al obtener empleados por pensión");
-    }
-    return await response.json();
-  };
-
-  const getEmpleadosPorEPSyDependencia = async () => {
-    const response = await fetch(
-      "http://localhost:8080/api/consultas/v1/empleados-por-eps-dependencia"
-    );
-    if (!response.ok) {
-      throw new Error("Error al obtener empleados por EPS y dependencia");
-    }
-    return await response.json();
-  };
-
-  const getEmpleadosPorPensionYDependencia = async () => {
-    const response = await fetch(
-      "http://localhost:8080/api/consultas/v1/empleados-por-pension-dependencia"
-    );
-    if (!response.ok) {
-      throw new Error("Error al obtener empleados por pensión y dependencia");
-    }
-    return await response.json();
-  };
-
   const fetchDependencias = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8080/api/dependencia/v1/listar"
-      );
+      const response = await fetch("http://localhost:8080/api/dependencia/v1/listar", {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error("Error al obtener dependencias");
       const data = await response.json();
       setDependencias(data);
@@ -126,7 +62,9 @@ function Empleado() {
 
   const fetchCargos = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/cargo/v1/listar");
+      const response = await fetch("http://localhost:8080/api/cargo/v1/listar", {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error("Error al obtener cargos");
       const data = await response.json();
       setCargos(data);
@@ -137,7 +75,9 @@ function Empleado() {
 
   const fetchEps = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/eps/v1/listar");
+      const response = await fetch("http://localhost:8080/api/eps/v1/listar", {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error("Error al obtener EPS");
       const data = await response.json();
       setEps(data);
@@ -148,7 +88,9 @@ function Empleado() {
 
   const fetchArls = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/arl/v1/listar");
+      const response = await fetch("http://localhost:8080/api/arl/v1/listar", {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error("Error al obtener ARL");
       const data = await response.json();
       setArls(data);
@@ -159,9 +101,9 @@ function Empleado() {
 
   const fetchPensiones = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8080/api/pension/v1/listar"
-      );
+      const response = await fetch("http://localhost:8080/api/pension/v1/listar", {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error("Error al obtener pensiones");
       const data = await response.json();
       setPensiones(data);
@@ -190,11 +132,13 @@ function Empleado() {
     try {
       const response = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
         body: JSON.stringify(empleadoData),
       });
-      if (!response.ok)
-        throw new Error("Error al guardar o actualizar empleado");
+      if (!response.ok) throw new Error("Error al guardar o actualizar empleado");
       fetchEmpleados();
       setEmpleado({
         id: "",
@@ -220,6 +164,7 @@ function Empleado() {
     try {
       await fetch(`http://localhost:8080/api/empleado/v1/eliminar/${id}`, {
         method: "DELETE",
+        headers: { Authorization: `Bearer ${getToken()}` },
       });
       fetchEmpleados();
     } catch (error) {
@@ -236,6 +181,7 @@ function Empleado() {
     const { name, value } = e.target;
     setEmpleado({ ...empleado, [name]: value });
   };
+
 
   return (
     <>
@@ -480,8 +426,7 @@ const styles = {
   mainContent: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-start",
     width: "100%",
     padding: "20px",
     marginTop: "100px",
@@ -532,13 +477,15 @@ const styles = {
   },
   tableSection: {
     width: "100%",
-    maxWidth: "800px",
+    maxWidth: "100%", // Asegura el ancho completo de la pantalla
     marginTop: "40px",
+    paddingLeft: "20px", // Añade un pequeño margen desde el borde izquierdo
+    paddingRight: "20px",
   },
   title: {
     fontSize: "1.5em",
     marginBottom: "20px",
-    textAlign: "center",
+    textAlign: "left",
   },
   table: {
     width: "100%",
@@ -553,6 +500,7 @@ const styles = {
   td: {
     padding: "10px",
     borderBottom: "1px solid #ddd",
+    textAlign: "left",
   },
   editButton: {
     backgroundColor: "#1E90FF",

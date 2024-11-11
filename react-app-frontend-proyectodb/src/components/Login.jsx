@@ -1,14 +1,15 @@
 import React, { useState, useRef, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UseRecaptchaComponent from "./UseRecaptchaComponent";
 
-function Login() {
+function Login({ onLogin }) {
   const [captchaToken, setCaptchaToken] = useState("");
   const recaptchaRef = useRef(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [hoveredButton, setHoveredButton] = useState(false);
   const [focusedInput, setFocusedInput] = useState(null);
+  const navigate = useNavigate();
 
   const styles = {
     header: {
@@ -106,15 +107,6 @@ function Login() {
     setCaptchaToken(token || "");
   }, []);
 
-  const fetchWithTimeout = (url, options, timeout = 5000) => {
-    return Promise.race([
-      fetch(url, options),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Timeout")), timeout)
-      ),
-    ]);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -123,55 +115,40 @@ function Login() {
       return;
     }
 
-    console.log("Datos antes de enviar:", {
-      username,
-      password,
-      captchaToken,
-    });
-
     try {
-      const response = await fetchWithTimeout(
-        "http://localhost:8080/api/auth/v1/log-in",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            usuario: username,
-            contrasenia: password,
-            token: captchaToken,
-          }),
+      const response = await fetch("http://localhost:8080/api/auth/v1/log-in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        5000
-      );
+        body: JSON.stringify({
+          usuario: username,
+          contrasenia: password,
+          token: captchaToken,
+        }),
+      });
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Respuesta del servidor:", data);
-
         if (data.status) {
           alert("¡Inicio de sesión exitoso!");
-          console.log("Token JWT:", data.jwtToken);
           localStorage.setItem("jwtToken", data.jwtToken);
+          
+          // Invoca onLogin para actualizar el estado de autenticación en App
+          onLogin();
+
+          // Redirige a la página principal (Home)
+          navigate("/");
         } else {
           alert("Credenciales incorrectas. Intenta de nuevo.");
         }
       } else {
         const errorData = await response.json();
-
-        if (
-          response.status === 404 &&
-          errorData.message.includes("no existe")
-        ) {
+        if (response.status === 404 && errorData.message.includes("no existe")) {
           alert("El usuario no existe. Verifica los datos ingresados.");
-        } else if (
-          response.status === 404 &&
-          errorData.message.includes("contraseña")
-        ) {
+        } else if (response.status === 404 && errorData.message.includes("contraseña")) {
           alert("Contraseña incorrecta. Intenta nuevamente.");
         } else {
-          console.error("Error desconocido:", errorData.message);
           alert("Error de autenticación. Inténtalo nuevamente.");
         }
       }

@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 
 function Novedad() {
   const [novedades, setNovedades] = useState([]);
-  const [empleados, setEmpleados] = useState([]); // Para almacenar lista de empleados
+  const [empleados, setEmpleados] = useState([]);
   const [novedad, setNovedad] = useState({
     id: '',
     empleadoDTO: '',
     numeroDias: '',
     bonificacion: '',
     transporte: '',
-    vacacionesDTO: [], // Se puede extender para manejar los datos específicos de vacaciones
-    incapacidadesDTO: [], // Se puede extender para manejar los datos específicos de incapacidades
+    vacacionesDTO: [],
+    incapacidadesDTO: [],
   });
   const [editId, setEditId] = useState(null);
 
@@ -19,10 +19,13 @@ function Novedad() {
     fetchEmpleados();
   }, []);
 
-  // Función para obtener las novedades
+  const getToken = () => localStorage.getItem("jwtToken");
+
   const fetchNovedades = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/novedad/v1/listar');
+      const response = await fetch('http://localhost:8080/api/novedad/v1/listar', {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error('Error al obtener novedades');
       const data = await response.json();
       setNovedades(data);
@@ -31,10 +34,11 @@ function Novedad() {
     }
   };
 
-  // Función para obtener los empleados
   const fetchEmpleados = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/empleado/v1/listar');
+      const response = await fetch('http://localhost:8080/api/empleado/v1/listar', {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       if (!response.ok) throw new Error('Error al obtener empleados');
       const data = await response.json();
       setEmpleados(data);
@@ -43,13 +47,12 @@ function Novedad() {
     }
   };
 
-  // Función para guardar o actualizar la novedad
   const saveOrUpdateNovedad = async (e) => {
     e.preventDefault();
 
     const novedadData = {
       ...novedad,
-      empleadoDTO: { id: novedad.empleadoDTO }, // Asignación del empleado
+      empleadoDTO: { id: novedad.empleadoDTO },
     };
 
     const url = editId
@@ -60,7 +63,10 @@ function Novedad() {
     try {
       const response = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getToken()}`,
+        },
         body: JSON.stringify(novedadData),
       });
       if (!response.ok) throw new Error('Error al guardar o actualizar novedad');
@@ -80,11 +86,11 @@ function Novedad() {
     }
   };
 
-  // Función para eliminar una novedad
   const deleteNovedad = async (id) => {
     try {
       await fetch(`http://localhost:8080/api/novedad/v1/eliminar/${id}`, {
         method: 'DELETE',
+        headers: { Authorization: `Bearer ${getToken()}` },
       });
       fetchNovedades();
     } catch (error) {
@@ -92,13 +98,11 @@ function Novedad() {
     }
   };
 
-  // Función para editar una novedad
   const handleEdit = (novedad) => {
     setNovedad(novedad);
     setEditId(novedad.id);
   };
 
-  // Función para manejar los cambios en el formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNovedad({ ...novedad, [name]: value });

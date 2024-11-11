@@ -81,9 +81,9 @@ public class EmpleadoService implements IService<EmpleadoDTO, Integer> {
 
     @Override
     public void delete(Integer id) {
-        read(id);
-        repository
-                .deleteById(id);
+        var empleadoDTO = read(id).get();
+        empleadoDTO.setDeleted(true);
+        update(id, empleadoDTO);
     }
 
     @Override

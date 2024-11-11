@@ -61,9 +61,9 @@ public class PermisoRolService implements IService<PermisoRolDTO, Integer> {
 
     @Override
     public void delete(Integer id) {
-        read(id);
-        repository.deleteById(id);
-
+        var permisoRolDTO = read(id).get();
+        permisoRolDTO.setDeleted(true);
+        update(id, permisoRolDTO);
     }
 
     @Override

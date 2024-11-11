@@ -23,5 +23,4 @@ public interface INovedadAPI {
 
     @GetMapping("/listar")
     ResponseEntity<?> readAll();
-
 }
