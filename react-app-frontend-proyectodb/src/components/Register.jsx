@@ -84,13 +84,6 @@ function Register() {
       return;
     }
 
-    const token = localStorage.getItem("jwtToken");
-    if (!token) {
-      alert("Error de autenticación. Por favor inicia sesión.");
-      navigate("/login");
-      return;
-    }
-
     try {
       const response = await fetch(
         "http://localhost:8080/api/usuario/v1/crear",
@@ -98,7 +91,6 @@ function Register() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             usuario: username,
