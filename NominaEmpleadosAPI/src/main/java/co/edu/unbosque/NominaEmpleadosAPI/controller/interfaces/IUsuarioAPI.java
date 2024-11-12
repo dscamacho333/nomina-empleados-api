@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/usuario/v1")
 @PreAuthorize("hasAnyRole('ADMIN','DESARROLLADOR')")
 public interface IUsuarioAPI {
@@ -23,5 +25,8 @@ public interface IUsuarioAPI {
 
     @GetMapping("/listar")
     ResponseEntity<?> readAll();
+
+    @GetMapping("/listar-sin-rol")
+    ResponseEntity<List<UsuarioDTO>> listarUsuariosSinRol();
 
 }

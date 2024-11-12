@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import ConsultasPDF3 from "./ConsultasPDF3";
-import NavBar from './NavBar'; // Importa NavBar
+import NavBar from "./NavBar"; // Importa NavBar
 
 const ReporteIndividual = () => {
   const [idEmpleado, setIdEmpleado] = useState("");
@@ -68,7 +68,6 @@ const ReporteIndividual = () => {
   return (
     <>
       <NavBar /> {/* Usa el componente NavBar */}
-
       {/* Contenido principal */}
       <main style={styles.mainContent}>
         <section style={styles.hero}>
@@ -100,7 +99,9 @@ const ReporteIndividual = () => {
           {/* Previsualización y descarga del PDF */}
           {reporteData && (
             <>
-              <PDFViewer style={{ width: "100%", height: "500px", marginTop: 20 }}>
+              <PDFViewer
+                style={{ width: "100%", height: "500px", marginTop: 20 }}
+              >
                 <ConsultasPDF3 data={reporteData} />
               </PDFViewer>
               <PDFDownloadLink

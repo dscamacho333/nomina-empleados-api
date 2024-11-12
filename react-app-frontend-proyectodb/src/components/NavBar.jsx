@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavBar() {
   const [hoveredLink, setHoveredLink] = useState(null);
   const [showDropdownGestion, setShowDropdownGestion] = useState(false);
   const [showDropdownReportes, setShowDropdownReportes] = useState(false);
+  const navigate = useNavigate();
 
   const styles = {
     header: {
@@ -117,6 +118,10 @@ function NavBar() {
     setShowDropdownGestion(false);
   };
 
+  const handleAssignRoleClick = () => {
+    navigate("/asignar-rol");
+  };
+
   return (
     <div style={styles.header}>
       <Link to="/home" style={styles.logo}>
@@ -126,67 +131,134 @@ function NavBar() {
         <ul style={styles.nav}>
           <li style={styles.navItem} onClick={toggleDropdownGestion}>
             Gestión
-            <ul style={showDropdownGestion ? styles.dropdown : styles.dropdownHidden}>
+            <ul
+              style={
+                showDropdownGestion ? styles.dropdown : styles.dropdownHidden
+              }
+            >
               <li>
-                <Link to="/dependencias" style={hoveredLink === "dependencias" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/dependencias"
+                  style={
+                    hoveredLink === "dependencias"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("dependencias")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   Dependencias
                 </Link>
               </li>
               <li>
-                <Link to="/arl" style={hoveredLink === "arl" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/arl"
+                  style={
+                    hoveredLink === "arl"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("arl")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   ARL
                 </Link>
               </li>
               <li>
-                <Link to="/cargos" style={hoveredLink === "cargos" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/cargos"
+                  style={
+                    hoveredLink === "cargos"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("cargos")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   Cargos
                 </Link>
               </li>
               <li>
-                <Link to="/eps" style={hoveredLink === "eps" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/eps"
+                  style={
+                    hoveredLink === "eps"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("eps")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   EPS
                 </Link>
               </li>
               <li>
-                <Link to="/empleado" style={hoveredLink === "empleado" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/empleado"
+                  style={
+                    hoveredLink === "empleado"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("empleado")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   Empleado
                 </Link>
               </li>
               <li>
-                <Link to="/pension" style={hoveredLink === "pension" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/pension"
+                  style={
+                    hoveredLink === "pension"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("pension")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   Pensión
                 </Link>
               </li>
               <li>
-                <Link to="/novedad" style={hoveredLink === "novedad" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/novedad"
+                  style={
+                    hoveredLink === "novedad"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("novedad")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   Novedad
                 </Link>
               </li>
               <li>
-                <Link to="/incapacidad" style={hoveredLink === "incapacidad" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/incapacidad"
+                  style={
+                    hoveredLink === "incapacidad"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("incapacidad")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   Incapacidad
                 </Link>
               </li>
               <li>
-                <Link to="/vacaciones" style={hoveredLink === "vacaciones" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/vacaciones"
+                  style={
+                    hoveredLink === "vacaciones"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("vacaciones")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   Vacaciones
                 </Link>
               </li>
@@ -194,32 +266,64 @@ function NavBar() {
           </li>
           <li style={styles.navItem} onClick={toggleDropdownReportes}>
             Reportes
-            <ul style={showDropdownReportes ? styles.dropdown : styles.dropdownHidden}>
+            <ul
+              style={
+                showDropdownReportes ? styles.dropdown : styles.dropdownHidden
+              }
+            >
               <li>
-                <Link to="/reporteNomina" style={hoveredLink === "reporteNomina" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/reporteNomina"
+                  style={
+                    hoveredLink === "reporteNomina"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("reporteNomina")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   Reporte Nómina
                 </Link>
               </li>
               <li>
-                <Link to="/reporteIndividual" style={hoveredLink === "reporteIndividual" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/reporteIndividual"
+                  style={
+                    hoveredLink === "reporteIndividual"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("reporteIndividual")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   Reporte Individual
                 </Link>
               </li>
               <li>
-                <Link to="/reporteSaludPension" style={hoveredLink === "reporteSaludPension" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/reporteSaludPension"
+                  style={
+                    hoveredLink === "reporteSaludPension"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("reporteSaludPension")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   Reporte Salud y Pensión
                 </Link>
               </li>
               <li>
-                <Link to="/reporteNovedad" style={hoveredLink === "reporteNovedad" ? { ...styles.dropdownItem, ...styles.dropdownItemHover } : styles.dropdownItem}
+                <Link
+                  to="/reporteNovedad"
+                  style={
+                    hoveredLink === "reporteNovedad"
+                      ? { ...styles.dropdownItem, ...styles.dropdownItemHover }
+                      : styles.dropdownItem
+                  }
                   onMouseEnter={() => handleMouseEnter("reporteNovedad")}
-                  onMouseLeave={handleMouseLeave}>
+                  onMouseLeave={handleMouseLeave}
+                >
                   Novedad
                 </Link>
               </li>
@@ -228,8 +332,12 @@ function NavBar() {
         </ul>
       </nav>
       <div style={styles.buttonContainer}>
-        <Link to="/login" style={styles.loginButton}>LogOut</Link>
-        <button style={styles.contactButton}>Contáctanos</button>
+        <Link to="/login" style={styles.loginButton}>
+          LogOut
+        </Link>
+        <button style={styles.contactButton} onClick={handleAssignRoleClick}>
+          Asignar Rol
+        </button>
       </div>
     </div>
   );

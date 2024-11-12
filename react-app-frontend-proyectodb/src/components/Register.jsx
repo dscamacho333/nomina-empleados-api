@@ -92,17 +92,20 @@ function Register() {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/api/usuario/v1/crear", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          usuario: username,
-          contrasenia: password,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/usuario/v1/crear",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            usuario: username,
+            contrasenia: password,
+          }),
+        }
+      );
 
       if (response.ok) {
         alert("Usuario registrado con éxito.");

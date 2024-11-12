@@ -5,7 +5,10 @@ import html2canvas from "html2canvas";
 import { Barchart } from "./Barchart";
 import { Piechart } from "./Piechart";
 import { DashboardPDF } from "./DashboardPDF";
-import { getEmpleadosPorDependencia, getEmpleadosPorCargo } from "./EmpleadoChart";
+import {
+  getEmpleadosPorDependencia,
+  getEmpleadosPorCargo,
+} from "./EmpleadoChart";
 import NavBarReporteNomina from "./NavBarReporteNomina"; // Importa NavBarReporteNomina
 
 const Dashboard = () => {
@@ -56,8 +59,10 @@ const Dashboard = () => {
     setShowPDFPreview(true);
   };
 
-  const chartTypeText = selectedChartType === "barras" ? "en Barras" : "Circular";
-  const dataTypeText = selectedDataType === "dependencia" ? "por Dependencia" : "por Cargo";
+  const chartTypeText =
+    selectedChartType === "barras" ? "en Barras" : "Circular";
+  const dataTypeText =
+    selectedDataType === "dependencia" ? "por Dependencia" : "por Cargo";
   const pdfTitle = `Dashboard de Empleados ${dataTypeText} ${chartTypeText}`;
 
   // Refrescar gráfico cuando se cambia el tipo de gráfico o el tipo de datos
@@ -68,7 +73,11 @@ const Dashboard = () => {
   }, [selectedChartType, selectedDataType]);
 
   if (error) {
-    return <Typography color="error" align="center" variant="h6">{error}</Typography>;
+    return (
+      <Typography color="error" align="center" variant="h6">
+        {error}
+      </Typography>
+    );
   }
 
   return (
@@ -76,12 +85,25 @@ const Dashboard = () => {
       {/* Utiliza NavBarReporteNomina */}
       <NavBarReporteNomina />
 
-      <div style={{ padding: "20px", maxWidth: "1400px", margin: "auto", marginTop: "100px" }}>
+      <div
+        style={{
+          padding: "20px",
+          maxWidth: "1400px",
+          margin: "auto",
+          marginTop: "100px",
+        }}
+      >
         <Typography variant="h4" gutterBottom align="center">
           Gráficos de Empleados
         </Typography>
 
-        <div style={{ display: "block", textAlign: "center", marginBottom: "20px" }}>
+        <div
+          style={{
+            display: "block",
+            textAlign: "center",
+            marginBottom: "20px",
+          }}
+        >
           <Select
             value={selectedChartType}
             onChange={(e) => setSelectedChartType(e.target.value)}
@@ -103,8 +125,8 @@ const Dashboard = () => {
         <div
           ref={chartRef}
           style={{
-            width: "100%",
-            height: "auto",
+            width: "100vh",
+            height: "100vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -113,17 +135,25 @@ const Dashboard = () => {
         >
           {selectedChartType === "barras" ? (
             <Barchart
-              data={selectedDataType === "dependencia" ? dependenciaData : cargoData}
-              labelKey={selectedDataType === "dependencia" ? "dependencia" : "cargo"}
+              data={
+                selectedDataType === "dependencia" ? dependenciaData : cargoData
+              }
+              labelKey={
+                selectedDataType === "dependencia" ? "dependencia" : "cargo"
+              }
               dataKey="cantidad"
-              style={{ width: "100%", height: "100%" }}
+              style={{ width: "100vh", height: "100vh" }}
             />
           ) : (
             <Piechart
-              data={selectedDataType === "dependencia" ? dependenciaData : cargoData}
-              labelKey={selectedDataType === "dependencia" ? "dependencia" : "cargo"}
+              data={
+                selectedDataType === "dependencia" ? dependenciaData : cargoData
+              }
+              labelKey={
+                selectedDataType === "dependencia" ? "dependencia" : "cargo"
+              }
               dataKey="cantidad"
-              style={{ width: "100%", height: "100%" }}
+              style={{ width: "100vh", height: "100vh" }}
             />
           )}
         </div>

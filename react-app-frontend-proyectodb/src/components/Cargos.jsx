@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import NavBar from './NavBar'; // Importa NavBar
+import React, { useState, useEffect } from "react";
+import NavBar from "./NavBar"; // Importa NavBar
 
 function Cargos() {
   const [cargos, setCargos] = useState([]);
-  const [nombre, setNombre] = useState('');
+  const [nombre, setNombre] = useState("");
   const [editId, setEditId] = useState(null);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ function Cargos() {
 
   const validateForm = () => {
     if (!nombre) {
-      alert('Por favor ingresa un nombre para el cargo');
+      alert("Por favor ingresa un nombre para el cargo");
       return false;
     }
     return true;
@@ -22,16 +22,19 @@ function Cargos() {
     const token = localStorage.getItem("jwtToken");
 
     try {
-      const response = await fetch('http://localhost:8080/api/cargo/v1/listar', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/cargo/v1/listar",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!response.ok) {
-        throw new Error('Error al obtener los cargos');
+        throw new Error("Error al obtener los cargos");
       }
       const data = await response.json();
       setCargos(data);
     } catch (error) {
-      console.error('Error al obtener los cargos:', error);
+      console.error("Error al obtener los cargos:", error);
     }
   };
 
@@ -44,11 +47,11 @@ function Cargos() {
       if (editId) {
         updateCargo(editId, cargoItem)
           .then(() => fetchCargos())
-          .catch((error) => console.error('Error al actualizar cargo:', error));
+          .catch((error) => console.error("Error al actualizar cargo:", error));
       } else {
         createCargo(cargoItem)
           .then(() => fetchCargos())
-          .catch((error) => console.error('Error al crear cargo:', error));
+          .catch((error) => console.error("Error al crear cargo:", error));
       }
     }
   };
@@ -56,10 +59,10 @@ function Cargos() {
   const createCargo = async (cargoItem) => {
     const token = localStorage.getItem("jwtToken");
 
-    return await fetch('http://localhost:8080/api/cargo/v1/crear', {
-      method: 'POST',
+    return await fetch("http://localhost:8080/api/cargo/v1/crear", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(cargoItem),
@@ -70,9 +73,9 @@ function Cargos() {
     const token = localStorage.getItem("jwtToken");
 
     return await fetch(`http://localhost:8080/api/cargo/v1/actualizar/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(cargoItem),
@@ -84,12 +87,12 @@ function Cargos() {
 
     try {
       await fetch(`http://localhost:8080/api/cargo/v1/eliminar/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchCargos();
     } catch (error) {
-      console.error('Error al eliminar cargo:', error);
+      console.error("Error al eliminar cargo:", error);
     }
   };
 
@@ -101,7 +104,6 @@ function Cargos() {
   return (
     <>
       <NavBar /> {/* Usa el componente NavBar */}
-
       <main style={styles.mainContent}>
         <section style={styles.hero}>
           <div style={styles.heroText}>
@@ -114,12 +116,12 @@ function Cargos() {
             <input
               type="text"
               placeholder="Nombre del Cargo"
-              value={nombre || ''}
+              value={nombre || ""}
               onChange={(e) => setNombre(e.target.value)}
               style={styles.input}
             />
             <button onClick={saveOrUpdateCargos} style={styles.button}>
-              {editId ? 'Actualizar Cargo' : 'Crear Cargo'}
+              {editId ? "Actualizar Cargo" : "Crear Cargo"}
             </button>
           </form>
         </section>
